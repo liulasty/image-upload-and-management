@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace = "com.lz.Dao.ProjectDao">
+	
+	<select id="selectProjectTotal" resultType="java.lang.Long">
+		
+	</select>
+	<select id="selectProject" resultType="com.lz.pojo.vo.ProjectVO">
+		select *
+		from lz_sports.eventitem
+		left join lz_sports.event e on eventitem.EventID = e.EventID;
+		<where>
+			<if test="name != null and name != ''">
+				AND Username like CONCAT('%', #{name}, '%')
+			</if>
+			<if test="type != null and type != ''">
+				AND Usertype = #{type}
+			</if>
+			<if test="date != null">
+				AND registerTime > #{date}
+			</if>
+		</where>
+		ORDER BY registerTime
+		LIMIT #{pageSize} OFFSET #{currentPage}
+	</select>
+</mapper>

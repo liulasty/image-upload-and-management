@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace = "com.lz.Dao.EventDao">
+	
+	<insert id="insertEvent" parameterType="com.lz.pojo.entity.Event" useGeneratedKeys="true" keyProperty="eventId">
+		INSERT INTO lz_sports.event (EventName, RegistrationStart, RegistrationFee, Eligibility)
+		VALUES (#{eventName}, #{registrationStart}, #{registrationFee}, #{eligibility})
+	</insert>
+	<select id="selectEventName" resultType="java.lang.String">
+		select EventName
+		from lz_sports.event
+	</select>
+
+</mapper>
