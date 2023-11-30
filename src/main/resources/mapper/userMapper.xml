@@ -8,7 +8,7 @@
 		WHERE Email = #{email}
 	</select>
 	<select id="selectAllAndState" resultType="com.lz.pojo.vo.UserVO">
-		SELECT u.UserID as id,  registerTime,Username as name,Status as state,UserType as type,COALESCE(a.applyTime, -1)  as applyState
+		SELECT u.UserID as id,u.registerTime,Username as name,Status as state,UserType as type,COALESCE(a.applyTime, -1)  as applyState
         from lz_sports.user u
 		LEFT JOIN lz_sports.Athlete a ON u.UserID = a.UserID
 		<where>

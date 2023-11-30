@@ -29,7 +29,6 @@ public class ProjectServiceImpl implements ProjectService {
     @Override
     public PageResult list(EventListDto listDto) {
         System.out.println("listDto:" + listDto);
-        listDto.setCurrentPage((listDto.getCurrentPage()-1)*listDto.getPageSize());
 
         List<ProjectVO> projectVOS = projectDao.selectProject(listDto);
         

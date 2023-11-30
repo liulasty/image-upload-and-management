@@ -3,24 +3,37 @@
 <mapper namespace = "com.lz.Dao.ProjectDao">
 	
 	<select id="selectProjectTotal" resultType="java.lang.Long">
-		
-	</select>
-	<select id="selectProject" resultType="com.lz.pojo.vo.ProjectVO">
-		select *
+		select count(*)
 		from lz_sports.eventitem
-		left join lz_sports.event e on eventitem.EventID = e.EventID;
+		left join lz_sports.event e on eventitem.EventID = e.EventID
 		<where>
 			<if test="name != null and name != ''">
-				AND Username like CONCAT('%', #{name}, '%')
+				AND ItemName like CONCAT('%', #{name}, '%')
 			</if>
 			<if test="type != null and type != ''">
-				AND Usertype = #{type}
+				AND EventName = #{type}
 			</if>
 			<if test="date != null">
-				AND registerTime > #{date}
+				AND RegistrationStart > #{date}
 			</if>
 		</where>
-		ORDER BY registerTime
+	</select>
+	<select id="selectProject" resultType="com.lz.pojo.vo.ProjectVO">
+		select ItemID as projectId,e.RegistrationStart as start,ItemName as name,  EventName as eventName,Eligibility as state
+		from lz_sports.eventitem item
+		left join lz_sports.event e on item.EventID = e.EventID
+		<where>
+			<if test="name != null and name != ''">
+				AND ItemName like CONCAT('%', #{name}, '%')
+			</if>
+			<if test="type != null and type != ''">
+				AND EventName = #{type}
+			</if>
+			<if test="date != null">
+				AND RegistrationStart > #{date}
+			</if>
+		</where>
+		ORDER BY e.RegistrationStart
 		LIMIT #{pageSize} OFFSET #{currentPage}
 	</select>
 </mapper>
