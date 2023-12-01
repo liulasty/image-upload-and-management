@@ -1,6 +1,7 @@
 package com.lz.service;
 
 import com.lz.pojo.dto.EventListDto;
+import com.lz.pojo.dto.ProjectDTO;
 import com.lz.pojo.result.PageResult;
 
 /**
@@ -18,4 +19,11 @@ public interface ProjectService {
      * @return
      */
     PageResult list(EventListDto listDto);
+
+    /**
+     * 添加项目
+     *
+     * @param projectDTO 项目 DTO
+     */
+    void add(ProjectDTO projectDTO);
 }

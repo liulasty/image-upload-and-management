@@ -40,4 +40,7 @@ public interface ProjectDao extends BaseMapper<Project> {
      * @return long
      */
     long selectProjectTotal(EventListDto listDto);
+    
+    
+    Long addProject(Project project);
 }

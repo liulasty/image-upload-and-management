@@ -9,6 +9,7 @@ package com.lz.pojo.entity;
  */
 
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Builder;
@@ -21,8 +22,19 @@ import lombok.Data;
 @Builder
 @TableName("eventitem")
 public class Project {
+    /**
+     * 项目 ID
+     */
     @TableId(value = "ItemID", type = IdType.AUTO)
-    private Long ItemID;
-    private Long   EventID;
-    private String ItemName;
+    private Long itemID;
+    /**
+     * 事件 ID
+     */
+    @TableField("EventID")
+    private Long eventID;
+    /**
+     * 项目名称
+     */
+    @TableField("ItemName")
+    private String itemName;
 }

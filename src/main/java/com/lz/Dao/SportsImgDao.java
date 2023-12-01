@@ -10,6 +10,7 @@ package com.lz.Dao;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.lz.pojo.dto.ProjectDTO;
 import com.lz.pojo.entity.SportsImg;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Mapper;
@@ -31,6 +32,8 @@ public interface SportsImgDao extends BaseMapper<SportsImg> {
      * @return {@code List<String>}
      */
     List<String> selectImgSrcByTypeAndId(@Param("imgType") String imgType, @Param("typeId") Long typeId);
+    
+    
 
     /**
      * 按 typeid 删除
@@ -53,4 +56,15 @@ public interface SportsImgDao extends BaseMapper<SportsImg> {
             "ImgSrc = #{src}")
     void deleteByTypeIdAndSrc(@Param("typeId")Long typeId,
                               @Param("src") String ossUrl);
+
+
+    /**
+     * 添加图片 src
+     * 添加 imageSrc
+     *
+     * @param type   类型
+     * @param imgId  图片 ID
+     * @param imgSrc 图片 src
+     */
+    void addImageSrc(String type,Long imgId,String[] imgSrc);
 }

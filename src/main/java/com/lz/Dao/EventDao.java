@@ -16,6 +16,9 @@ import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+import java.util.Map;
+
 /**
  * @author lz
  */
@@ -30,5 +33,5 @@ public interface EventDao extends BaseMapper<Event> {
     void insertEvent(Event event);
     
     
-    String[] selectEventName();
+    List<Map<Long,String>> selectEventName();
 }

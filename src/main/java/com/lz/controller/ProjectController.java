@@ -9,10 +9,12 @@ package com.lz.controller;
  */
 
 import com.lz.pojo.dto.EventListDto;
+import com.lz.pojo.dto.ProjectDTO;
 import com.lz.pojo.entity.Project;
 import com.lz.pojo.result.PageResult;
 import com.lz.pojo.result.Result;
 import com.lz.pojo.vo.ProjectVO;
+import com.lz.service.ImgService;
 import com.lz.service.ProjectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -27,6 +29,9 @@ public class ProjectController {
     
     @Autowired
     private ProjectService projectService;
+    
+    @Autowired
+    private ImgService imgService;
     
     
     @GetMapping("/page")
@@ -43,6 +48,14 @@ public class ProjectController {
         PageResult list = projectService.list(listDto);
 
         return Result.success(list);
+    }
+
+    @PostMapping()
+    public Result addProject(@RequestBody ProjectDTO projectDTO){
+        
+        projectService.add(projectDTO);
+
+        return Result.success("添加项目成功");
     }
     
     

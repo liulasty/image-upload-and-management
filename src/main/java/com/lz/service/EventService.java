@@ -17,6 +17,8 @@ import com.lz.pojo.result.chart.TableData;
 
 import java.sql.SQLException;
 import java.sql.SQLIntegrityConstraintViolationException;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @author lz
@@ -81,5 +83,5 @@ public interface EventService {
      *
      * @return {@code String[]}
      */
-    String[] getEventType();
+    List<Map<Long,String>> getEventType();
 }

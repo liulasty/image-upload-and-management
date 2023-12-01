@@ -7,8 +7,8 @@
 		INSERT INTO lz_sports.event (EventName, RegistrationStart, RegistrationFee, Eligibility)
 		VALUES (#{eventName}, #{registrationStart}, #{registrationFee}, #{eligibility})
 	</insert>
-	<select id="selectEventName" resultType="java.lang.String">
-		select EventName
+	<select id="selectEventName" resultType="map">
+		select EventID, EventName
 		from lz_sports.event
 	</select>
 

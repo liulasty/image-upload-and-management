@@ -34,6 +34,7 @@ import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author lz
@@ -59,6 +60,17 @@ public class EventController {
 
     }
 
+    /**
+     * 分页列表
+     *
+     * @param name        名字
+     * @param type        类型
+     * @param date        日期
+     * @param currentPage 当前页面
+     * @param pageSize    页面大小
+     *
+     * @return {@code Result<PageResult>}
+     */
     @GetMapping("/page")
     public Result<PageResult> list(@RequestParam(required = false) String name,
                                    @RequestParam(required = false) String type,
@@ -81,6 +93,11 @@ public class EventController {
         }
     }
 
+    /**
+     * 主页数据结果
+     *
+     * @return {@code Result<MainPageData>}
+     */
     @GetMapping("/mainPageData")
     public Result<MainPageData> mainPageDataResult() {
         try {
@@ -180,9 +197,9 @@ public class EventController {
      * @return {@code Result<String[]>}
      */
     @GetMapping("/eventType")
-    public Result<String[]> eventType(){
+    public Result<List<Map<Long,String>>> eventType(){
 
-        String[] types = eventService.getEventType();
+        List<Map<Long,String>> types = eventService.getEventType();
         
         return Result.success(types);
     }

@@ -2,6 +2,12 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		"http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace = "com.lz.Dao.SportsImgDao">
+	<insert id="addImageSrc" >
+		<foreach collection="imgSrc" item="src" separator=";">
+			INSERT INTO lz_sports.sportsimg(ImgType, typeId, ImgSrc)
+			VALUES (#{type}, #{imgId}, #{src})
+		</foreach>
+	</insert>
 	<select id="selectImgSrcByTypeAndId" resultType="java.lang.String">
 		SELECT ImgSrc
 		FROM lz_sports.sportsimg

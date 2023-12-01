@@ -32,6 +32,8 @@ import java.sql.SQLIntegrityConstraintViolationException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @author lz
@@ -258,9 +260,9 @@ public class EventServiceImpl implements EventService {
      * @return {@code String[]}
      */
     @Override
-    public String[] getEventType() {
+    public List<Map<Long,String>> getEventType() {
 
-        String[] strings = eventDao.selectEventName();
+        List<Map<Long,String>> strings = eventDao.selectEventName();
 
         return strings;
     }
