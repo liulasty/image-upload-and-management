@@ -42,7 +42,7 @@ public class UploadController {
         HttpHeaders headers = new HttpHeaders();
         try {
             // 生成唯一的文件名
-            String fileName = UUID.randomUUID().toString() + "-" + file.getOriginalFilename();
+            String fileName = UUID.randomUUID() + "-" + file.getOriginalFilename();
 
             // 创建OSSClient实例
             OSS ossClient = new OSSClientBuilder().build(endpoint, accessKeyId, accessKeySecret);
@@ -58,12 +58,14 @@ public class UploadController {
             headers.add("file-Name", fileName);
 
             // 构建 ResponseEntity，并设置响应头和响应状态码
-            ResponseEntity<String> responseEntity = ResponseEntity
-                    .status(HttpStatus.OK)  // 设置响应状态码
-                    .headers(headers)  // 设置响应头
-                    .body(fileName);  // 设置响应体
 
-            return responseEntity;
+            return ResponseEntity
+                    // 设置响应状态码
+                    .status(HttpStatus.OK)
+                    // 设置响应头
+                    .headers(headers)
+                    // 设置响应体
+                    .body(fileName);
         } catch (IOException e) {
             e.printStackTrace();
             headers.add("Custom-Header", "Failed_to_upload_image");
@@ -82,12 +84,14 @@ public class UploadController {
             System.out.println("文件删除成功");
             System.out.println("deleteImagesUrl = " + deleteImagesUrl);
             // 构建 ResponseEntity，并设置响应头和响应状态码
-            ResponseEntity<String> responseEntity = ResponseEntity
-                    .status(HttpStatus.OK)  // 设置响应状态码
-                    .headers(headers)  // 设置响应头
-                    .body(deleteImagesUrl);  // 设置响应体
 
-            return responseEntity;
+            return ResponseEntity
+                    // 设置响应状态码
+                    .status(HttpStatus.OK)
+                    // 设置响应头
+                    .headers(headers)
+                    // 设置响应体
+                    .body(deleteImagesUrl);
         } catch (Exception e) {
             e.printStackTrace();
             
@@ -101,7 +105,7 @@ public class UploadController {
     public  ResponseEntity<String> imageList(@RequestBody String[] imageList){
         
         try {
-            System.out.println("imageList = " + imageList.toString());
+            System.out.println("imageList = " + Arrays.toString(imageList));
             return ResponseEntity.status(HttpStatus.OK).body(
                     "接受成功");
             

@@ -1,12 +1,6 @@
 package com.lz.service;
 
-/**
- * Created with IntelliJ IDEA.
- *
- * @Author: lz
- * @Date: 2023/10/30/9:06
- * @Description:
- */
+
 
 
 import com.lz.pojo.dto.EventDTO;
@@ -21,7 +15,10 @@ import java.util.List;
 import java.util.Map;
 
 /**
+ * 活动服务
+ *
  * @author lz
+ * @date 2023/12/06
  */
 public interface EventService {
     /**
@@ -33,7 +30,7 @@ public interface EventService {
      *
      * @throws SQLIntegrityConstraintViolationException SQLColiction 约束冲突异常
      */
-    public String addEvent(EventDTO eventDTO) throws SQLIntegrityConstraintViolationException;
+    String addEvent(EventDTO eventDTO) throws SQLIntegrityConstraintViolationException;
 
     /**
      * 分页列表
@@ -42,14 +39,14 @@ public interface EventService {
      *
      * @return {@code PageResult}
      */
-    public PageResult list(EventListDto eventListDto);
+    PageResult list(EventListDto eventListDto);
 
     /**
      * 获取新十
      *
      * @return {@code TableData[]}
      */
-    public TableData[] getNewTen();
+    TableData[] getNewTen();
 
 
     /**
@@ -67,6 +64,8 @@ public interface EventService {
      * @param eventId 事件 ID
      *
      * @return {@code String}
+     *
+     * @throws SQLException SQLException
      */
     String deleteEvent(String eventId) throws SQLException;
 

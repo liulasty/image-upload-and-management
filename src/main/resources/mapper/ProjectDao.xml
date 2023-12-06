@@ -23,7 +23,7 @@
 		</where>
 	</select>
 	<select id="selectProject" resultType="com.lz.pojo.vo.ProjectVO">
-		select ItemID as projectId,e.RegistrationStart as start,ItemName as name,  EventName as eventName,Eligibility as state
+		select ItemID as projectId,e.RegistrationStart as start,ItemName as name,e.EventID as eventId,  EventName as eventName,Eligibility as state
 		from lz_sports.eventitem item
 		left join lz_sports.event e on item.EventID = e.EventID
 		<where>

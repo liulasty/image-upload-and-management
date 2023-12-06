@@ -1,12 +1,6 @@
 package com.lz.pojo.vo;
 
-/**
- * Created with IntelliJ IDEA.
- *
- * @Author: lz
- * @Date: 2023/11/29/22:42
- * @Description:
- */
+
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -17,7 +11,10 @@ import java.io.Serializable;
 import java.util.Date;
 
 /**
+ * VO项目
+ *
  * @author lz
+ * @date 2023/12/06
  */
 @Data
 @Builder
@@ -30,9 +27,11 @@ public class ProjectVO implements Serializable {
     
     private String name;
     
+    private Long eventId;
     private String eventName;
     
     private String state;
     
+    private String isJoin;
     
 }

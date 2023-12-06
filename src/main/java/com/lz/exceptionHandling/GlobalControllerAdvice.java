@@ -1,17 +1,11 @@
 package com.lz.exceptionHandling;
 
-/**
- * Created with IntelliJ IDEA.
- *
- * @Author: lz
- * @Date: 2023/11/06/8:29
- * @Description:
- */
-
+import com.lz.Exception.MyException;
 import com.lz.pojo.result.Result;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.validation.BindException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -44,13 +38,13 @@ public class GlobalControllerAdvice {
 
     @ExceptionHandler(BindException.class)
 
-    public Result bindExceptionHandler(BindException e) {
+    public Result<String> bindExceptionHandler(BindException e) {
 
         List<FieldError> fieldErrors = e.getBindingResult().getFieldErrors();
 
         List<String> collect = fieldErrors.stream()
 
-                .map(o -> o.getDefaultMessage())
+                .map(DefaultMessageSourceResolvable::getDefaultMessage)
 
                 .collect(Collectors.toList());
 
@@ -62,13 +56,13 @@ public class GlobalControllerAdvice {
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
 
-    public Result methodArgumentNotValidExceptionHandler(MethodArgumentNotValidException e) {
+    public Result<String> methodArgumentNotValidExceptionHandler(MethodArgumentNotValidException e) {
 
         List<FieldError> fieldErrors = e.getBindingResult().getFieldErrors();
 
         List<String> collect = fieldErrors.stream()
 
-                .map(o -> o.getDefaultMessage())
+                .map(DefaultMessageSourceResolvable::getDefaultMessage)
 
                 .collect(Collectors.toList());
 
@@ -79,13 +73,13 @@ public class GlobalControllerAdvice {
     // <3> 处理单个参数校验失败抛出的异常
 
     @ExceptionHandler(ConstraintViolationException.class)
-    public Result constraintViolationExceptionHandler(ConstraintViolationException e) {
+    public Result<String> constraintViolationExceptionHandler(ConstraintViolationException e) {
 
         Set<ConstraintViolation<?>> constraintViolations = e.getConstraintViolations();
 
         List<String> collect = constraintViolations.stream()
 
-                .map(o -> o.getMessage())
+                .map(ConstraintViolation::getMessage)
 
                 .collect(Collectors.toList());
 
@@ -94,7 +88,7 @@ public class GlobalControllerAdvice {
     }
     
     @ExceptionHandler(SQLIntegrityConstraintViolationException.class)
-    public Result SQLIntegrityConstraintViolationException(SQLIntegrityConstraintViolationException e){
+    public Result<String> SQLIntegrityConstraintViolationException(SQLIntegrityConstraintViolationException e){
         System.out.println("SQLIntegrityConstraintViolationException = "+e);
                 
 
@@ -110,14 +104,21 @@ public class GlobalControllerAdvice {
      * @return {@code Result}
      */
     @ExceptionHandler(value = SQLException.class)
-    public Result exceptionHandler(SQLException e)  {
+    public Result<String> exceptionHandler(SQLException e)  {
        
         logger.error("发生SQL异常！原因是:",e);
         return Result.error(e.getMessage());
     }
     
     @ExceptionHandler(value = NullPointerException.class)
-    public Result exceptionHandler(NullPointerException e){
+    public Result<String> exceptionHandler(NullPointerException e){
+        logger.error("发生系统异常！原因是:",e);
+        return Result.error(e.getMessage());
+    }
+    
+    @ExceptionHandler(value = MyException.class)
+    public Result<String> MyException(MyException e){
+        logger.error("发生系统异常！原因是:",e);
         return Result.error(e.getMessage());
     }
 }
