@@ -1,4 +1,4 @@
-package com.lz.service.Impl;
+package com.lz.service.impl;
 
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
@@ -17,6 +17,7 @@ import com.lz.service.ProjectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
@@ -53,9 +54,12 @@ public class ProjectServiceImpl implements ProjectService {
         List<ProjectVO> projectVos = projectDao.selectProject(listDto);
 
         Long uid = BaseContext.getCurrentId();
+        QueryWrapper<Athlete> athleteQW = Wrappers.query();
+        athleteQW.eq("UserID", uid);
+        Athlete athlete = athleteDao.selectOne(athleteQW);
         for (ProjectVO projectVo : projectVos) {
             QueryWrapper<Registration> queryWrapper = Wrappers.query();
-            queryWrapper.eq("AthleteID", uid);
+            queryWrapper.eq("AthleteID", athlete.getAthleteId());
             queryWrapper.eq("ItemID",projectVo.getProjectId());
             queryWrapper.eq("EventID",projectVo.getEventId());
 
@@ -84,7 +88,11 @@ public class ProjectServiceImpl implements ProjectService {
     @Override
     public void add(ProjectDTO projectDTO) {
         Project project =
-                Project.builder().eventID(projectDTO.getEvent()).itemName(projectDTO.getName()).build();
+                Project.builder()
+                        .eventID(projectDTO.getEvent())
+                        .itemName(projectDTO.getName())
+                        .createTime(new Date())
+                        .build();
         int insert = projectDao.insert(project);
 
         Long itemId = project.getItemID();
@@ -124,7 +132,14 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
-    public void delete(Long id){
+    public void delete(Long id) throws SQLException {
+
+        QueryWrapper<Registration> RegistrationQW = Wrappers.query();
+        RegistrationQW.eq("UserID", id);
+        Registration registration = registrationDao.selectOne(RegistrationQW);
+        if (registration == null){
+            throw new SQLException("删除失败，请先删除相关报名记录");
+        }
         int i = projectDao.deleteById(id);
         
         sportsImgDao.deleteByImgTypeAndTypeId("项目照片",id);

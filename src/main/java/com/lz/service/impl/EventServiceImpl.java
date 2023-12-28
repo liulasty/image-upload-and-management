@@ -1,4 +1,4 @@
-package com.lz.service.Impl;
+package com.lz.service.impl;
 
 /**
  * Created with IntelliJ IDEA.
@@ -21,8 +21,8 @@ import com.lz.pojo.entity.Event;
 import com.lz.pojo.entity.SportsImg;
 import com.lz.pojo.result.PageResult;
 import com.lz.pojo.result.chart.TableData;
+import com.lz.pojo.result.chart.TypeData;
 import com.lz.service.EventService;
-import com.lz.service.ImgService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -98,7 +98,7 @@ public class EventServiceImpl implements EventService {
                     .eventName(eventDTO.getName())
                     .eligibility(eventDTO.getType())
                     .registrationFee(Integer.parseInt(eventDTO.getFee()))
-                    .registrationStart(stringToData(eventDTO.getDate()[0]))
+                    .registrationStart(stringToData(eventDTO.getDate1()[0]))
                     .build();
 
 
@@ -113,7 +113,7 @@ public class EventServiceImpl implements EventService {
             }
             return String.valueOf(event.getEventId());
         } catch (Exception e) {
-
+            e.printStackTrace();
 
             return "异常消息，系统异常";
         }
@@ -232,7 +232,7 @@ public class EventServiceImpl implements EventService {
                 .eventName(eventDTO.getName())
                 .eligibility(eventDTO.getType())
                 .registrationFee(Integer.parseInt(eventDTO.getFee()))
-                .registrationStart(stringToData(eventDTO.getDate()[0]))
+                .registrationStart(stringToData(eventDTO.getDate1()[0]))
                 .build();
 
         eventDao.updateById(event);
@@ -265,6 +265,26 @@ public class EventServiceImpl implements EventService {
         List<Map<Long,String>> strings = eventDao.selectEventName();
 
         return strings;
+    }
+
+    /**
+     * 按日期获取数据
+     *
+     * @param date s
+     *
+     * @return {@code TypeData}
+     */
+    @Override
+    public TypeData getDataByDate(String date) {
+
+        TypeData typeData = new  TypeData();
+        TypeData typeDataResult = eventDao.selectNumsByDate(date);
+        
+        if(typeDataResult != null){
+            typeData = typeDataResult;
+        }
+        
+        return typeData;
     }
 
 }

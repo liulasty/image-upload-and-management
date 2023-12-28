@@ -7,6 +7,7 @@ import com.lz.pojo.dto.RegistrationDTO;
 import com.lz.pojo.entity.Registration;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Select;
 
 import java.util.Date;
 import java.util.List;
@@ -45,4 +46,13 @@ public interface RegistrationDao extends BaseMapper<Registration> {
      * @return int
      */
     int getRegistrationsTotal(String name, String status, Date date);
+
+    /**
+     * 获取注册球员总数
+     *
+     * @return {@code Integer}
+     */
+    @Select("select COUNT(DISTINCT AthleteID) from lz_sports.registration where RegistrationStatus = " +
+            "'通过'")
+    Integer getRegistrationPlayerTotal();
 }

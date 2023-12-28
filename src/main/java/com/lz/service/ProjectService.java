@@ -6,6 +6,8 @@ import com.lz.pojo.dto.JoinProjectDTO;
 import com.lz.pojo.dto.ProjectDTO;
 import com.lz.pojo.result.PageResult;
 
+import java.sql.SQLException;
+
 
 /**
  * 项目服务
@@ -43,7 +45,7 @@ public interface ProjectService {
      *
      * @param id 编号
      */
-    void delete(Long id);
+    void delete(Long id) throws SQLException;
 
     /**
      * 获取项目

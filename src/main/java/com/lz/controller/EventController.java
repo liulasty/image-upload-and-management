@@ -8,9 +8,6 @@ package com.lz.controller;
  * @Description:
  */
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.lz.Dao.EventDao;
 import com.lz.pojo.dto.EventDTO;
 import com.lz.pojo.dto.EventListDto;
 import com.lz.pojo.entity.Event;
@@ -18,23 +15,25 @@ import com.lz.pojo.result.MainPageData;
 import com.lz.pojo.result.PageResult;
 import com.lz.pojo.result.Result;
 import com.lz.pojo.result.chart.OrderData;
+import com.lz.pojo.result.chart.TypeData;
+import com.lz.pojo.result.chart.UserData;
+import com.lz.pojo.result.chart.UserType;
 import com.lz.pojo.vo.EventVO;
 import com.lz.service.EventService;
 import com.lz.service.SportsImgService;
+import com.lz.service.UserService;
 import com.lz.utils.DataUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.lang.model.element.VariableElement;
 import java.sql.SQLException;
 import java.sql.SQLIntegrityConstraintViolationException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.*;
 
 /**
  * @author lz
@@ -49,13 +48,15 @@ public class EventController {
     
     @Autowired
     private SportsImgService sportsImgService;
+    
+    @Autowired
+    private UserService userService;
 
     @PostMapping("/EventList")
     public String addEvent(@RequestBody EventDTO eventDTO) throws SQLIntegrityConstraintViolationException {
 
-        System.out.println("eventDTO.getImageUrls():" + eventDTO.getImageUrls());
-        String s = eventService.addEvent(eventDTO);
-        return s;
+        System.out.println("eventDTO.getImageUrls():" + Arrays.toString(eventDTO.getImageUrls()));
+        return eventService.addEvent(eventDTO);
 
 
     }
@@ -103,7 +104,39 @@ public class EventController {
         try {
             MainPageData mainPageData = new MainPageData();
             mainPageData.setTableData(eventService.getNewTen());
-            mainPageData.setOrderData(new OrderData());
+            OrderData<TypeData> orderData = new OrderData<>();
+
+            orderData.getData().clear();
+            List<TypeData> typeDataList = new ArrayList<>();
+            UserData[] userData = new UserData[orderData.getDate().length];
+            String[] months= new String[orderData.getDate().length];
+            // 获取当前日期
+            LocalDate currentDate = LocalDate.now();
+            // 定义日期格式
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMM"); 
+            for (int i = 0; i < orderData.getDate().length; i++){
+                months[i] = currentDate.minusMonths(i).format(formatter);
+                typeDataList.add(eventService.getDataByDate(orderData.getDate()[i]));
+                userData[i] =
+                        userService.getUserNumsByMonth(months[i]);
+                
+            }
+            List<UserType> userTypes =userService.getUserTypes();
+            orderData.setData(typeDataList);
+            
+            mainPageData.setOrderData(orderData);
+            mainPageData.setUserData(userData);
+            mainPageData.setDoughnutData(userTypes);
+            
+            int[] nums = userService.getNums();
+            
+            mainPageData.setTotalNumberAthletes(nums[0]);
+            mainPageData.setTotalNumberActivities(nums[1]);
+            mainPageData.setTotalNumberProjects(nums[2]);
+            mainPageData.setNewAthletesAddedMonth(nums[3]);
+            mainPageData.setNewActivitiesAddedMonth(nums[4]);
+            mainPageData.setNewProjectsAddedMonth(nums[5]);
+            
             return Result.success(mainPageData);
         } catch (Exception e) {
             e.printStackTrace();

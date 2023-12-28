@@ -15,6 +15,8 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Builder;
 import lombok.Data;
 
+import java.util.Date;
+
 /**
  * @author lz
  */
@@ -37,4 +39,6 @@ public class Project {
      */
     @TableField("ItemName")
     private String itemName;
+    @TableField("createTime")
+    private Date createTime;
 }

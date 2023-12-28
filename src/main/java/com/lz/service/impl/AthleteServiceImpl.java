@@ -1,4 +1,4 @@
-package com.lz.service.Impl;
+package com.lz.service.impl;
 
 /**
  * Created with IntelliJ IDEA.

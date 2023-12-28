@@ -16,6 +16,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.sql.SQLException;
+
 /**
  * @author lz
  */
@@ -61,7 +63,7 @@ public class ProjectController {
         return Result.success(projectDTO);
     }
     @DeleteMapping("/{id}")
-    public Result<String> delete(@PathVariable long id){
+    public Result<String> delete(@PathVariable long id) throws SQLException {
         
         projectService.delete(id);
         

@@ -1,9 +1,6 @@
 package com.lz.controller;
 
 
-
-import com.lz.pojo.dto.RegistrationDTO;
-import com.lz.pojo.entity.Registration;
 import com.lz.pojo.result.PageResult;
 import com.lz.pojo.result.Result;
 import com.lz.service.RegistrationService;
@@ -27,6 +24,17 @@ public class RegistrationController {
     @Autowired
     private RegistrationService registrationService;
 
+    /**
+     * 分页查询列表
+     *
+     * @param name        名字
+     * @param status      地位
+     * @param date        日期
+     * @param currentPage 当前页面
+     * @param pageSize    页面大小
+     *
+     * @return {@code Result<PageResult>}
+     */
     @GetMapping("/page")
     public Result<PageResult> list(@RequestParam(required = false) String name,
                                    @RequestParam(required = false) String status,
@@ -38,12 +46,32 @@ public class RegistrationController {
         PageResult registrationList = registrationService.list(currentPage,
                                                                pageSize, name,
                                                                status,
-                                                               StringToData(date));
+                                                               stringToData(date));
 
         return Result.success(registrationList);
     }
 
-    public Date StringToData(String s){
+    /**
+     * 删除
+     *
+     * @param id 编号
+     *
+     * @return {@code Result<String>}
+     */
+    @DeleteMapping("/{id}")
+    public Result<String> delete(@PathVariable Long id){
+        registrationService.delete(id);
+        return Result.success("删除成功");
+    }
+    
+    @PutMapping("/{id}")
+    public Result<String> attend(@PathVariable Long id){
+        registrationService.attend(id);
+        
+        return Result.success("同意参加");
+    }
+
+    public Date stringToData(String s){
 
         if(s == null || "".equals(s)){
             return null;

@@ -1,4 +1,4 @@
-package com.lz.service.Impl;
+package com.lz.service.impl;
 
 /**
  * Created with IntelliJ IDEA.
@@ -8,10 +8,7 @@ package com.lz.service.Impl;
  * @Description:
  */
 
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.lz.Dao.SportsImgDao;
-import com.lz.pojo.entity.Event;
-import com.lz.pojo.entity.SportsImg;
 import com.lz.service.SportsImgService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

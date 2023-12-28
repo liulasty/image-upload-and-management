@@ -40,4 +40,8 @@
 			</if>
 		</where>
 	</select>
+	<select id="getUserNumsByMonth" resultType="java.lang.Integer">
+		SELECT count(*) FROM lz_sports.user
+		WHERE DATE_FORMAT(registerTime, '%Y%m') = #{month}
+	</select>
 </mapper>

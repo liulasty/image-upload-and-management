@@ -14,6 +14,7 @@ import com.lz.pojo.entity.Event;
 import com.lz.pojo.entity.Project;
 import com.lz.pojo.vo.ProjectVO;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
 
@@ -40,7 +41,35 @@ public interface ProjectDao extends BaseMapper<Project> {
      * @return long
      */
     long selectProjectTotal(EventListDto listDto);
-    
-    
+
+
+    /**
+     * 添加项目
+     *
+     * @param project 项目
+     *
+     * @return {@code Long}
+     */
     Long addProject(Project project);
+
+    /**
+     * 按月获取项目编号
+     *
+     * @param year  年
+     * @param month 月
+     *
+     * @return int
+     */
+    @Select("SELECT COUNT(*) FROM lz_sports.eventitem WHERE YEAR(createTime) = " +
+            "#{year}" +
+            " AND MONTH(createTime) = #{month}")
+    int getProjectNumsByMonth(int year, int month);
+
+    /**
+     * 获取项目总计
+     *
+     * @return int
+     */
+    @Select("select COUNT(*) from lz_sports.eventitem")
+    int getProjectTotal();
 }

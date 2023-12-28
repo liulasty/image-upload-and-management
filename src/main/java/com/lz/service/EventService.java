@@ -8,6 +8,7 @@ import com.lz.pojo.dto.EventListDto;
 import com.lz.pojo.entity.Event;
 import com.lz.pojo.result.PageResult;
 import com.lz.pojo.result.chart.TableData;
+import com.lz.pojo.result.chart.TypeData;
 
 import java.sql.SQLException;
 import java.sql.SQLIntegrityConstraintViolationException;
@@ -83,4 +84,13 @@ public interface EventService {
      * @return {@code String[]}
      */
     List<Map<Long,String>> getEventType();
+
+    /**
+     * 按日期获取数据
+     *
+     * @param s s
+     *
+     * @return {@code TypeData}
+     */
+    TypeData getDataByDate(String s);
 }

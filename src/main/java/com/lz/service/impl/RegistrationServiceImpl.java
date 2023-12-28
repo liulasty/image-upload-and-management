@@ -1,15 +1,15 @@
-package com.lz.service.Impl;
+package com.lz.service.impl;
 
 
 
 import com.lz.Dao.RegistrationDao;
 import com.lz.pojo.dto.RegistrationDTO;
+import com.lz.pojo.entity.Registration;
 import com.lz.pojo.result.PageResult;
 import com.lz.service.RegistrationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.xml.crypto.Data;
 import java.util.Date;
 import java.util.List;
 
@@ -43,5 +43,30 @@ public class RegistrationServiceImpl implements RegistrationService {
         int registrationsTotal = registrationDao.getRegistrationsTotal(name,
                                                                        status, date);
         return new PageResult(registrationsTotal, registrations);
+    }
+
+    /**
+     * 删除参赛记录
+     *
+     * @param id 编号
+     */
+    @Override
+    public void delete(Long id) {
+        int i = registrationDao.deleteById(id);
+        
+        
+    }
+
+    /**
+     * 同意参加
+     *
+     * @param id 编号
+     */
+    @Override
+    public void attend(Long id) {
+
+        Registration registration = Registration.builder().id(id).status("通过").build();
+        int i = registrationDao.updateById(registration);
+        
     }
 }

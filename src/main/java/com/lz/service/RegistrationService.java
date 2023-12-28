@@ -28,5 +28,18 @@ public interface RegistrationService {
      */
     PageResult list(int currentPage, int pageSize,
                                      String name, String status, Date date);
-    
+
+    /**
+     * 删除参赛记录
+     *
+     * @param id 编号
+     */
+    void delete(Long id);
+
+    /**
+     * 同意参加
+     *
+     * @param id 编号
+     */
+    void attend(Long id);
 }

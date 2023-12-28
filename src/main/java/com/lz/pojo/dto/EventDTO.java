@@ -24,7 +24,7 @@ import java.util.Arrays;
 @AllArgsConstructor
 @NoArgsConstructor
 public class EventDTO implements Serializable {
-    private String[] date;
+    private String[] date1;
     private String name;
     private String fee;
     private String type;

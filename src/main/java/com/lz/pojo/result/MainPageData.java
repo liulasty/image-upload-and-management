@@ -10,9 +10,12 @@ package com.lz.pojo.result;
 
 import com.lz.pojo.result.chart.OrderData;
 import com.lz.pojo.result.chart.TableData;
+import com.lz.pojo.result.chart.UserData;
+import com.lz.pojo.result.chart.UserType;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * @author lz
@@ -26,5 +29,36 @@ import java.io.Serializable;
 public class MainPageData implements Serializable {
     private TableData[] tableData;
     private OrderData orderData;
+    private UserData[] userData;
+    /**
+     * 扇形图
+     */
+    private List<UserType> DoughnutData;
+
+
+    /**
+     * 运动员总数
+     */
+    private Integer totalNumberAthletes;
+    /**
+     * 活动总数
+     */
+    private Integer totalNumberActivities;
+    /**
+     * 项目总数
+     */
+    private Integer totalNumberProjects;
+    /**
+     * 新增运动员月
+     */
+    private Integer newAthletesAddedMonth;
+    /**
+     * 每月新增活动
+     */
+    private Integer newActivitiesAddedMonth;
+    /**
+     * 每月新增项目
+     */
+    private Integer newProjectsAddedMonth;
     
 }

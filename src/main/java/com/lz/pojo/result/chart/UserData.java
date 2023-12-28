@@ -8,8 +8,18 @@ package com.lz.pojo.result.chart;
  * @Description:
  */
 
+import lombok.Data;
+
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+
 /**
  * @author lz
  */
+@Data
 public class UserData {
+    private String date;
+    private int addUser;
+    private int addAthlete;
+    
 }

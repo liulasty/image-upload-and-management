@@ -11,5 +11,15 @@
 		select EventID, EventName
 		from lz_sports.event
 	</select>
+	<select id="selectNumsByDate" resultType="com.lz.pojo.result.chart.TypeData">
+		SELECT
+			SUM(CASE WHEN eligibility = '线上报名' THEN 1 ELSE 0 END) AS online,
+			SUM(CASE WHEN eligibility = '单位报名' THEN 1 ELSE 0 END) AS 'group',
+			SUM(CASE WHEN eligibility = '线下报名' THEN 1 ELSE 0 END) AS offline,
+			SUM(CASE WHEN eligibility NOT IN ('线上报名', '单位报名', '线下报名') THEN 1 ELSE 0 END) AS other
+		FROM lz_sports.Event
+		WHERE DATE(registrationStart) = (#{date})
+	</select>
+
 
 </mapper>

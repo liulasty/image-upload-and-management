@@ -5,6 +5,7 @@ import com.lz.pojo.dto.EventListDto;
 import com.lz.pojo.entity.User;
 import com.lz.pojo.vo.UserVO;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
 
@@ -39,4 +40,20 @@ public interface UserDao extends BaseMapper<User> {
     
    
     public int getTotalUserCount(EventListDto listDto);
+
+    /**
+     * 按月获取用户数量
+     *
+     * @param month 月
+     * @return
+     */
+    int getUserNumsByMonth(String month);
+
+    /**
+     * 获取用户总数
+     *
+     * @return {@code Integer}
+     */
+    @Select("select COUNT(*) from lz_sports.user where UserType='用户'")
+    Integer getUserTotal();
 }

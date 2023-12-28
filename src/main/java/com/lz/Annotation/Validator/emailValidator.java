@@ -23,7 +23,7 @@ import java.util.regex.Pattern;
  */
 public class emailValidator implements ConstraintValidator<emailVerification, String> {
 
-    private static final String EMAIL_PATTERN = "^([a-zA-Z0-9_\\-\\.]+)@([a-zA-Z0-9_\\-\\.]+)\\.([a-zA-Z]{2,5})$";
+    private static final String EMAIL_PATTERN = "^[\\w.-]+@[\\w.-]+\\.[a-zA-Z]{2,7}$";
     private static final String USERNAME_PATTERN = "^(\\w{3,7})$";
     @Override
     public boolean isValid(String s, ConstraintValidatorContext constraintValidatorContext) {
@@ -37,6 +37,10 @@ public class emailValidator implements ConstraintValidator<emailVerification, St
         Pattern pattern = Pattern.compile(EMAIL_PATTERN);
         Matcher emailMatcher = pattern.matcher(s);
         if (!emailMatcher.matches()) {
+            System.out.println("不是邮箱");
+            
+            Matcher matcher = pattern.matcher(s);
+            System.out.println(matcher.matches());
             return Pattern.compile(USERNAME_PATTERN).matcher(s).matches();
         }
         // 校验成功

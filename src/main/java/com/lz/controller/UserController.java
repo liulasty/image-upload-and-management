@@ -58,7 +58,7 @@ public class UserController {
      *
      * @return {@code String}
      */
-    public String Validate(BindingResult result){
+    public String validate(BindingResult result){
         List<FieldError> fieldErrors = result.getFieldErrors();
 
         // fieldErrors列表中的每个对象的默认消息提取出来，并以字符串列表的形式返回。
@@ -87,8 +87,8 @@ public class UserController {
     public Result<UserLoginVO> login(@Validated @RequestBody UserLoginDTO userLoginDTO,
                                       BindingResult result) {
         //校验结果
-       if(Validate(result)!=null){
-           return Result.error(Validate(result));
+       if(validate(result)!=null){
+           return Result.error(validate(result));
        }
 
         User user = null;
@@ -156,10 +156,10 @@ public class UserController {
      * @return {@code Result}
      */
     @PostMapping("/register")
-    public Result register(@RequestBody @Validated UserRegisterDTO userRegisterDTO,BindingResult result){
+    public Result<String> register(@Validated @RequestBody  UserRegisterDTO userRegisterDTO,BindingResult result){
         //校验结果
-        if(Validate(result)!=null){
-            return Result.error(Validate(result));
+        if(validate(result)!=null){
+            return Result.error(validate(result));
         }
         User user = new User();
         try {
