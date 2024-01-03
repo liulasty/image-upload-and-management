@@ -22,6 +22,7 @@ import java.util.List;
 @Builder
 public class EventVO implements Serializable {
     private String date;
+    private String end;
     private String name;
     private String fee;
     private String type;

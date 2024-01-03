@@ -47,6 +47,45 @@ public class ProjectServiceImpl implements ProjectService {
     @Autowired
     private AthleteDao  athleteDao;
 
+
+    @Override
+    public PageResult listByAthlete(EventListDto listDto) {
+        System.out.println("listDto:" + listDto);
+
+        List<ProjectVO> projectVos = projectDao.selectProject(listDto);
+
+        Long uid = BaseContext.getCurrentId();
+        QueryWrapper<Athlete> athleteQW = Wrappers.query();
+        athleteQW.eq("UserID", uid);
+        Athlete athlete = athleteDao.selectOne(athleteQW);
+        if(athlete == null){
+            System.out.println("管理员");
+        }else {
+            for (ProjectVO projectVo : projectVos) {
+                QueryWrapper<Registration> queryWrapper = Wrappers.query();
+                queryWrapper.eq("AthleteID", athlete.getAthleteId());
+                queryWrapper.eq("ItemID",projectVo.getProjectId());
+                queryWrapper.eq("EventID",projectVo.getEventId());
+
+                Registration registration = registrationDao.selectOne(queryWrapper);
+
+                if (registration == null) {
+                    projectVo.setIsJoin("未参加");
+                }else {
+                    projectVo.setIsJoin(registration.getStatus());
+                }
+
+
+            }
+        }
+
+
+        long total = projectDao.selectProjectTotal(listDto);
+
+        return new PageResult(total, projectVos);
+
+    }
+
     @Override
     public PageResult list(EventListDto listDto) {
         System.out.println("listDto:" + listDto);
@@ -57,22 +96,27 @@ public class ProjectServiceImpl implements ProjectService {
         QueryWrapper<Athlete> athleteQW = Wrappers.query();
         athleteQW.eq("UserID", uid);
         Athlete athlete = athleteDao.selectOne(athleteQW);
-        for (ProjectVO projectVo : projectVos) {
-            QueryWrapper<Registration> queryWrapper = Wrappers.query();
-            queryWrapper.eq("AthleteID", athlete.getAthleteId());
-            queryWrapper.eq("ItemID",projectVo.getProjectId());
-            queryWrapper.eq("EventID",projectVo.getEventId());
+        if(athlete == null){
+            System.out.println("管理员");
+        }else {
+            for (ProjectVO projectVo : projectVos) {
+                QueryWrapper<Registration> queryWrapper = Wrappers.query();
+                queryWrapper.eq("AthleteID", athlete.getAthleteId());
+                queryWrapper.eq("ItemID",projectVo.getProjectId());
+                queryWrapper.eq("EventID",projectVo.getEventId());
 
-            Registration registration = registrationDao.selectOne(queryWrapper);
+                Registration registration = registrationDao.selectOne(queryWrapper);
 
-            if (registration == null) {
-                projectVo.setIsJoin("未参加");
-            }else {
-                projectVo.setIsJoin(registration.getStatus());
+                if (registration == null) {
+                    projectVo.setIsJoin("未参加");
+                }else {
+                    projectVo.setIsJoin(registration.getStatus());
+                }
+
+
             }
-            
-
         }
+        
 
         long total = projectDao.selectProjectTotal(listDto);
 

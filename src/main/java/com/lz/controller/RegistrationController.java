@@ -1,6 +1,11 @@
 package com.lz.controller;
 
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.lz.Dao.AthleteDao;
+import com.lz.context.BaseContext;
+import com.lz.pojo.entity.Athlete;
 import com.lz.pojo.result.PageResult;
 import com.lz.pojo.result.Result;
 import com.lz.service.RegistrationService;
@@ -24,6 +29,9 @@ public class RegistrationController {
     @Autowired
     private RegistrationService registrationService;
 
+    @Autowired
+    private AthleteDao athleteDao;
+
     /**
      * 分页查询列表
      *
@@ -43,10 +51,25 @@ public class RegistrationController {
                                    @RequestParam(defaultValue = "5") int pageSize) {
 
         System.out.println("date:" + date);
-        PageResult registrationList = registrationService.list(currentPage,
-                                                               pageSize, name,
-                                                               status,
-                                                               stringToData(date));
+        Long uid = BaseContext.getCurrentId();
+        QueryWrapper<Athlete> athleteQW = Wrappers.query();
+        athleteQW.eq("UserID", uid);
+        Athlete athlete = athleteDao.selectOne(athleteQW);
+        PageResult registrationList = new PageResult();
+        if(athlete == null){
+            System.out.println("管理员");
+            
+            registrationList = registrationService.list(currentPage,
+                                                        pageSize, name,
+                                                        status,
+                                                        stringToData(date));
+        }else {
+            registrationList = registrationService.list(currentPage,
+                                                        pageSize, name,
+                                                        status,
+                                                        stringToData(date));
+        }
+       
 
         return Result.success(registrationList);
     }

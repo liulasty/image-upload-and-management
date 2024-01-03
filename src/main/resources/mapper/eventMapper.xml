@@ -4,8 +4,8 @@
 <mapper namespace = "com.lz.Dao.EventDao">
 	
 	<insert id="insertEvent" parameterType="com.lz.pojo.entity.Event" useGeneratedKeys="true" keyProperty="eventId">
-		INSERT INTO lz_sports.event (EventName, RegistrationStart, RegistrationFee, Eligibility)
-		VALUES (#{eventName}, #{registrationStart}, #{registrationFee}, #{eligibility})
+		INSERT INTO lz_sports.event (EventName, RegistrationStart, RegistrationFee, Eligibility,RegistrationEnd)
+		VALUES (#{eventName}, #{registrationStart}, #{registrationFee}, #{eligibility},#{registrationDeadline})
 	</insert>
 	<select id="selectEventName" resultType="map">
 		select EventID, EventName

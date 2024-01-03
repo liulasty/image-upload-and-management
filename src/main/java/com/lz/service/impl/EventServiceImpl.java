@@ -99,6 +99,7 @@ public class EventServiceImpl implements EventService {
                     .eligibility(eventDTO.getType())
                     .registrationFee(Integer.parseInt(eventDTO.getFee()))
                     .registrationStart(stringToData(eventDTO.getDate1()[0]))
+                    .registrationDeadline(stringToData((eventDTO.getDate1()[1])))
                     .build();
 
 
@@ -206,7 +207,7 @@ public class EventServiceImpl implements EventService {
      */
     @Override
     public String deleteEvent(String eventId) throws SQLException {
-
+        
 
         int delete = eventDao.deleteById(eventId);
         System.out.println("delete:" + delete);
@@ -233,6 +234,7 @@ public class EventServiceImpl implements EventService {
                 .eligibility(eventDTO.getType())
                 .registrationFee(Integer.parseInt(eventDTO.getFee()))
                 .registrationStart(stringToData(eventDTO.getDate1()[0]))
+                .registrationDeadline(stringToData((eventDTO.getDate1()[1])))
                 .build();
 
         eventDao.updateById(event);

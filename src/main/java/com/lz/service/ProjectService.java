@@ -16,6 +16,15 @@ import java.sql.SQLException;
  * @date 2023/12/03
  */
 public interface ProjectService {
+
+    /**
+     * 运动员名单
+     *
+     * @param listDto 列出 DTO
+     *
+     * @return {@code PageResult}
+     */
+    PageResult listByAthlete(EventListDto listDto);
     /**
      * 列表
      * 项目列表

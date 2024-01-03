@@ -147,7 +147,7 @@ public class EventController {
     }
 
     /**
-     * 选择
+     * 查找
      *
      * @param eventId 事件 ID
      *
@@ -165,6 +165,7 @@ public class EventController {
                     .date(DataUtil.dateToString(event.getRegistrationStart()))
                     .fee(String.valueOf(event.getRegistrationFee()))
                     .type(event.getEligibility())
+                    .end(DataUtil.dateToString(event.getRegistrationDeadline()))
                     .imageUrls(eventImg)
                     .build();
 
@@ -214,8 +215,15 @@ public class EventController {
 
         return date;
     }
-    
-    
+
+
+    /**
+     * 修改
+     * @param eventId
+     * @param eventDTO
+     *
+     * @return {@code Result}
+     */
     @PutMapping("/{eventId}")
     public Result update(@PathVariable String eventId,@RequestBody EventDTO eventDTO){
         eventService.update(eventId,eventDTO);

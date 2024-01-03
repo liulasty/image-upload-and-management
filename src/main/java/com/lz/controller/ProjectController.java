@@ -2,10 +2,15 @@ package com.lz.controller;
 
 
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.lz.Dao.AthleteDao;
 import com.lz.Exception.MyException;
+import com.lz.context.BaseContext;
 import com.lz.pojo.dto.EventListDto;
 import com.lz.pojo.dto.JoinProjectDTO;
 import com.lz.pojo.dto.ProjectDTO;
+import com.lz.pojo.entity.Athlete;
 import com.lz.pojo.entity.Project;
 import com.lz.pojo.result.PageResult;
 import com.lz.pojo.result.Result;
@@ -29,6 +34,9 @@ public class ProjectController {
     
     @Autowired
     private ProjectService projectService;
+
+    @Autowired
+    private AthleteDao athleteDao;
     
     
     
@@ -41,9 +49,23 @@ public class ProjectController {
 
         log.info("分页查询:{},{}", currentPage,pageSize);
         int offset = (currentPage - 1) * pageSize;
-        EventListDto listDto = new EventListDto(name, type, date, offset, pageSize);
+        Long uid = BaseContext.getCurrentId();
+        QueryWrapper<Athlete> athleteQW = Wrappers.query();
+        athleteQW.eq("UserID", uid);
+        Athlete athlete = athleteDao.selectOne(athleteQW);
+        PageResult list = new PageResult();
+        if(athlete == null){
+            System.out.println("管理员");
+
+            EventListDto listDto = new EventListDto(name, type, date, offset, pageSize);
+            list = projectService.list(listDto);
+        }else {
+            EventListDto listDto = new EventListDto(name, type, date, offset, pageSize);
+            list = projectService.listByAthlete(listDto);
+        }
         
-        PageResult list = projectService.list(listDto);
+        
+        
 
         return Result.success(list);
     }

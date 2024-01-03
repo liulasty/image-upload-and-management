@@ -9,6 +9,7 @@ package com.lz.controller;
  */
 
 import com.lz.pojo.dto.AthleteDTO;
+import com.lz.pojo.entity.Athlete;
 import com.lz.pojo.result.Result;
 import com.lz.service.AthleteService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,5 +32,13 @@ public class AthleteController {
         athleteService.add(athleteDTO);
         
         return Result.success("申请成功");
+    }
+    
+    @GetMapping("/{id}")
+    public Result<Athlete> selectApply(@PathVariable Integer id){
+        
+        Athlete athlete = athleteService.selectApply(id);
+        
+        return Result.success(athlete);
     }
 }

@@ -37,6 +37,9 @@ public class Event {
      */
     @TableField("RegistrationStart")
     private Date registrationStart;
+    
+    @TableField("RegistrationEnd")
+    private Date registrationDeadline;
     /**
      * 注册费
      */

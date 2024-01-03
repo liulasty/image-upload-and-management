@@ -52,4 +52,13 @@ public interface AthleteDao extends BaseMapper<Athlete> {
             "#{year}" +
             " AND MONTH(agreeTime) = #{month}")
     int getAthleteNumByMonth(int year, int month);
+
+    /**
+     * 按用户ID选择
+     *
+     * @param id 编号
+     *
+     * @return {@code Athlete}
+     */
+    Athlete selectByUserId(Integer id);
 }
