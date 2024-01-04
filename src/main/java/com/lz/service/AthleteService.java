@@ -8,6 +8,7 @@ package com.lz.service;
  * @Description:
  */
 
+import com.lz.Exception.NoAthleteException;
 import com.lz.pojo.dto.AthleteDTO;
 import com.lz.pojo.entity.Athlete;
 
@@ -31,5 +32,19 @@ public interface AthleteService {
      *
      * @return {@code Athlete}
      */
-    Athlete selectApply(Integer id);
+    Athlete selectApply(Integer id) throws NoAthleteException;
+
+    /**
+     * 拒绝申请
+     *
+     * @param id 编号
+     */
+    void refusePlayer(Integer id);
+
+    /**
+     * 按用户 ID 删除
+     *
+     * @param id 编号
+     */
+    void deleteByUserId(Integer id);
 }

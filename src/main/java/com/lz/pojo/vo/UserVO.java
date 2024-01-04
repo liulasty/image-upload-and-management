@@ -34,4 +34,6 @@ public class UserVO {
     private String type;
     
     private String applyState;
+    
+    private String applyTime;
 }

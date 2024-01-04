@@ -1,6 +1,8 @@
 package com.lz.exceptionHandling;
 
 import com.lz.Exception.MyException;
+import com.lz.Exception.NoAthleteException;
+import com.lz.pojo.entity.Athlete;
 import com.lz.pojo.result.Result;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
@@ -121,4 +123,13 @@ public class GlobalControllerAdvice {
         logger.error("发生系统异常！原因是:",e);
         return Result.error(e.getMessage());
     }
+
+    @ExceptionHandler(value = NoAthleteException.class)
+    public Result<Athlete> NoAthleteException(NoAthleteException e){
+        logger.error("发生系统异常！原因是:",e);
+        Athlete athlete = new Athlete();
+        athlete.setAthleteState("未申请");
+        return Result.error(athlete);
+    }
+    
 }

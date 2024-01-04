@@ -37,7 +37,10 @@ public class Event {
      */
     @TableField("RegistrationStart")
     private Date registrationStart;
-    
+
+    /**
+     * 报名截止日期
+     */
     @TableField("RegistrationEnd")
     private Date registrationDeadline;
     /**
@@ -50,4 +53,7 @@ public class Event {
      */
     @TableField("Eligibility")
     private String eligibility;
+
+    
+    
 }

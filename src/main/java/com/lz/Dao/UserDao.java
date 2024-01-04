@@ -37,12 +37,19 @@ public interface UserDao extends BaseMapper<User> {
      * @return {@code List<UserVO>}
      */
     public List<UserVO> selectAllAndState(EventListDto listDto);
-    
-   
+
+
+    /**
+     * 获取用户总数
+     *
+     * @param listDto 列出 DTO
+     *
+     * @return int
+     */
     public int getTotalUserCount(EventListDto listDto);
 
     /**
-     * 按月获取用户数量
+     * 按月获取学生数量
      *
      * @param month 月
      * @return
@@ -50,10 +57,10 @@ public interface UserDao extends BaseMapper<User> {
     int getUserNumsByMonth(String month);
 
     /**
-     * 获取用户总数
+     * 获取学生总数
      *
      * @return {@code Integer}
      */
-    @Select("select COUNT(*) from lz_sports.user where UserType='用户'")
+    @Select("select COUNT(*) from lz_sports.user where UserType='学生'")
     Integer getUserTotal();
 }

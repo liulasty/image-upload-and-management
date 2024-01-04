@@ -1,7 +1,6 @@
 package com.lz.service.impl;
 
 
-
 import com.lz.Dao.RegistrationDao;
 import com.lz.pojo.dto.RegistrationDTO;
 import com.lz.pojo.entity.Registration;
@@ -37,11 +36,36 @@ public class RegistrationServiceImpl implements RegistrationService {
     public PageResult list(int currentPage, int pageSize, String name,
                            String status, Date date) {
         System.out.println("date:" + date);
-        int offset = (currentPage - 1) * pageSize ;
-        List<RegistrationDTO> registrations = registrationDao.getRegistrationsWithDetails(pageSize, offset, name,
-                                                                                          status, date);
-        int registrationsTotal = registrationDao.getRegistrationsTotal(name,
-                                                                       status, date);
+        int offset = (currentPage - 1) * pageSize;
+        List<RegistrationDTO> registrations = 
+                registrationDao.getRegistrationsWithDetails(pageSize, offset, name, status, date);
+        int registrationsTotal = 
+                registrationDao.getRegistrationsTotal(name, status, date);
+        return new PageResult(registrationsTotal, registrations);
+    }
+
+    /**
+     * 运动员查询参赛记录列表
+     *
+     * @param currentPage 当前页面
+     * @param pageSize    页面大小
+     * @param name        名字
+     * @param status      地位
+     * @param date        字符串到数据
+     * @param id          uid
+     *
+     * @return {@code PageResult}
+     */
+    @Override
+    public PageResult listByPlayer(int currentPage, int pageSize, String name
+            , String status, Date date, Long id) {
+
+        System.out.println("date:" + date);
+        int offset = (currentPage - 1) * pageSize;
+        List<RegistrationDTO> registrations =
+                registrationDao.getRegistrationsWithDetailsByPlayer(pageSize, offset, name, status, date, id);
+        int registrationsTotal =
+                registrationDao.getRegistrationsTotalByPlayer(name, status, date, id);
         return new PageResult(registrationsTotal, registrations);
     }
 
@@ -53,8 +77,8 @@ public class RegistrationServiceImpl implements RegistrationService {
     @Override
     public void delete(Long id) {
         int i = registrationDao.deleteById(id);
-        
-        
+
+
     }
 
     /**
@@ -67,6 +91,22 @@ public class RegistrationServiceImpl implements RegistrationService {
 
         Registration registration = Registration.builder().id(id).status("通过").build();
         int i = registrationDao.updateById(registration);
-        
+
     }
+
+    /**
+     * 拒绝申请
+     *
+     * @param id 编号
+     */
+    @Override
+    public void refuse(Long id) {
+        Registration registration = Registration.builder().id(id).status(
+                "不通过").build();
+        int i = registrationDao.updateById(registration);
+    }
+
+    
+
+
 }

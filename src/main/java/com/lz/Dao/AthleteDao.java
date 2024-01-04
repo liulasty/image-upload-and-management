@@ -29,7 +29,8 @@ public interface AthleteDao extends BaseMapper<Athlete> {
      * @return int
      */
     @Select("SELECT COUNT(*) FROM lz_sports.athlete" +
-            "  WHERE DATE_FORMAT(applyTime, '%Y%m') = #{month}")
+            "  WHERE DATE_FORMAT(applyTime, '%Y%m') = #{month} and " +
+            "AthleteState = '成功'")
     int getAthleteNumsByMonth(String month);
 
     /**
@@ -61,4 +62,18 @@ public interface AthleteDao extends BaseMapper<Athlete> {
      * @return {@code Athlete}
      */
     Athlete selectByUserId(Integer id);
+
+    /**
+     * 拒绝申请
+     *
+     * @param id 编号
+     */
+    void refusePlayer(Integer id);
+
+    /**
+     * 按用户 ID 删除
+     *
+     * @param id 编号
+     */
+    void deleteByUserId(Integer id);
 }

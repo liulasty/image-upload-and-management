@@ -136,6 +136,8 @@ public class ProjectServiceImpl implements ProjectService {
                         .eventID(projectDTO.getEvent())
                         .itemName(projectDTO.getName())
                         .createTime(new Date())
+                        .grade(projectDTO.getGrade())
+                        .limitation(projectDTO.getLimitation())
                         .build();
         int insert = projectDao.insert(project);
 
@@ -157,7 +159,12 @@ public class ProjectServiceImpl implements ProjectService {
     @Override
     public void update(ProjectDTO projectDTO,Long id) {
         Project project =
-                Project.builder().eventID(projectDTO.getEvent()).itemName(projectDTO.getName()).itemID(id).build();
+                Project.builder()
+                        .eventID(projectDTO.getEvent())
+                        .itemName(projectDTO.getName())
+                        .limitation(projectDTO.getLimitation())
+                        .grade(projectDTO.getGrade())
+                        .itemID(id).build();
         int i = projectDao.updateById(project);
         Long itemId = project.getItemID();
         projectDTO.mapOssUrlToAddImage();
@@ -200,7 +207,13 @@ public class ProjectServiceImpl implements ProjectService {
 
         List<String> list = sportsImgDao.selectImgSrcByTypeAndId("项目图片", id);
         String[] array = new String[list.size()];
-        return ProjectDTO.builder().name(project.getItemName()).event(project.getEventID()).addImage(list.toArray(array)).build();
+        return ProjectDTO.builder()
+                .name(project.getItemName())
+                .event(project.getEventID())
+                .grade(project.getGrade())
+                .limitation(project.getLimitation())
+                .addImage(list.toArray(array))
+                .build();
     }
 
     /**

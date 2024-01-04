@@ -64,10 +64,11 @@ public class RegistrationController {
                                                         status,
                                                         stringToData(date));
         }else {
-            registrationList = registrationService.list(currentPage,
+            registrationList = registrationService.listByPlayer(currentPage,
                                                         pageSize, name,
                                                         status,
-                                                        stringToData(date));
+                                                        stringToData(date),
+                                                                athlete.getAthleteId());
         }
        
 
@@ -86,11 +87,32 @@ public class RegistrationController {
         registrationService.delete(id);
         return Result.success("删除成功");
     }
-    
+
+    /**
+     * 同意参加参加
+     *
+     * @param id 编号
+     *
+     * @return {@code Result<String>}
+     */
     @PutMapping("/{id}")
     public Result<String> attend(@PathVariable Long id){
         registrationService.attend(id);
         
+        return Result.success("同意参加");
+    }
+
+    /**
+     * 拒绝申请
+     *
+     * @param id 编号
+     *
+     * @return {@code Result<String>}
+     */
+    @PutMapping("/refuse/{id}")
+    public Result<String> refuse(@PathVariable Long id){
+        registrationService.refuse(id);
+
         return Result.success("同意参加");
     }
 

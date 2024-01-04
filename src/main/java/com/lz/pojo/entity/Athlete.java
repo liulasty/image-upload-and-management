@@ -12,8 +12,10 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -23,6 +25,8 @@ import java.util.Date;
  */
 @Data
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @TableName("athlete")
 public class Athlete implements Serializable {
 
@@ -40,9 +44,11 @@ public class Athlete implements Serializable {
     @TableField(value = "Contact")
     private String contact;
     @TableField(value = "AthleteState")
-    private String state;
+    private String AthleteState;
     @TableField(value = "applyTime")
     private Date applyTime;
     @TableField(value = "agreeTime")
     private Date agreeTime;
+    @TableField(value = "grade")
+    private String grade;
 }

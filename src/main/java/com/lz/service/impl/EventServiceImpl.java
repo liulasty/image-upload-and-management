@@ -100,6 +100,7 @@ public class EventServiceImpl implements EventService {
                     .registrationFee(Integer.parseInt(eventDTO.getFee()))
                     .registrationStart(stringToData(eventDTO.getDate1()[0]))
                     .registrationDeadline(stringToData((eventDTO.getDate1()[1])))
+                    
                     .build();
 
 

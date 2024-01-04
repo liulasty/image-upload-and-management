@@ -52,6 +52,15 @@ public class EventController {
     @Autowired
     private UserService userService;
 
+    /**
+     * 添加事件
+     *
+     * @param eventDTO 事件 DTO
+     *
+     * @return {@code String}
+     *
+     * @throws SQLIntegrityConstraintViolationException SQLColiction 约束冲突异常
+     */
     @PostMapping("/EventList")
     public String addEvent(@RequestBody EventDTO eventDTO) throws SQLIntegrityConstraintViolationException {
 

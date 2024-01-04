@@ -42,34 +42,36 @@ public class ProjectController {
     
     @GetMapping("/page")
     public Result<PageResult> list(@RequestParam(required = false) String name,
-                                   @RequestParam(required = false) String type,
+                                   @RequestParam(required = false) String event,
                                    @RequestParam(required = false) String date,
                                    @RequestParam(defaultValue = "1") int currentPage,
                                    @RequestParam(defaultValue = "5") int pageSize) {
 
-        log.info("分页查询:{},{}", currentPage,pageSize);
+        log.info("分页查询:{},{},{}", currentPage,pageSize,event);
         int offset = (currentPage - 1) * pageSize;
         Long uid = BaseContext.getCurrentId();
         QueryWrapper<Athlete> athleteQW = Wrappers.query();
         athleteQW.eq("UserID", uid);
         Athlete athlete = athleteDao.selectOne(athleteQW);
         PageResult list = new PageResult();
+        EventListDto listDto = new EventListDto(name, event, date, offset,
+                                                pageSize);
         if(athlete == null){
-            System.out.println("管理员");
-
-            EventListDto listDto = new EventListDto(name, type, date, offset, pageSize);
+            // System.out.println("管理员");
             list = projectService.list(listDto);
         }else {
-            EventListDto listDto = new EventListDto(name, type, date, offset, pageSize);
             list = projectService.listByAthlete(listDto);
         }
-        
-        
-        
-
         return Result.success(list);
     }
 
+    /**
+     * 添加项目
+     *
+     * @param projectDTO 项目 DTO
+     *
+     * @return {@code Result<String>}
+     */
     @PostMapping()
     public Result<String> addProject(@RequestBody ProjectDTO projectDTO){
         
@@ -77,13 +79,30 @@ public class ProjectController {
 
         return Result.success("添加项目成功");
     }
-    
+
+    /**
+     * 获取项目
+     *
+     * @param id 编号
+     *
+     * @return {@code Result<ProjectDTO>}
+     */
     @GetMapping("/{id}")
     public Result<ProjectDTO> get(@PathVariable Long id){
         ProjectDTO projectDTO = projectService.getProject(id);
         
         return Result.success(projectDTO);
     }
+
+    /**
+     * 删除
+     *
+     * @param id 编号
+     *
+     * @return {@code Result<String>}
+     *
+     * @throws SQLException SQLException
+     */
     @DeleteMapping("/{id}")
     public Result<String> delete(@PathVariable long id) throws SQLException {
         

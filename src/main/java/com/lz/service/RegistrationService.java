@@ -30,6 +30,21 @@ public interface RegistrationService {
                                      String name, String status, Date date);
 
     /**
+     * 运动员查询参赛记录列表
+     *
+     * @param currentPage  当前页面
+     * @param pageSize     页面大小
+     * @param name         名字
+     * @param status       地位
+     * @param stringToData 字符串到数据
+     * @param id          uid
+     *
+     * @return {@code PageResult}
+     */
+    PageResult listByPlayer(int currentPage, int pageSize, 
+                            String name, String status, Date stringToData, Long id);
+
+    /**
      * 删除参赛记录
      *
      * @param id 编号
@@ -42,4 +57,13 @@ public interface RegistrationService {
      * @param id 编号
      */
     void attend(Long id);
+
+    /**
+     * 拒绝申请
+     *
+     * @param id 编号
+     */
+    void refuse(Long id);
+
+
 }

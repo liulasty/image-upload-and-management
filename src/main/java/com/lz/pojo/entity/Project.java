@@ -39,6 +39,19 @@ public class Project {
      */
     @TableField("ItemName")
     private String itemName;
+    
     @TableField("createTime")
     private Date createTime;
+
+    /**
+     * 项目所属年级
+     */
+    @TableField("grade")
+    private String grade;
+
+    /**
+     * 项目限制
+     */
+    @TableField("limitation")
+    private String limitation;
 }

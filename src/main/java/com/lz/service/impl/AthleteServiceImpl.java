@@ -10,9 +10,9 @@ package com.lz.service.impl;
 
 import com.lz.Dao.AthleteDao;
 import com.lz.Dao.UserDao;
+import com.lz.Exception.NoAthleteException;
 import com.lz.pojo.dto.AthleteDTO;
 import com.lz.pojo.entity.Athlete;
-import com.lz.pojo.entity.User;
 import com.lz.service.AthleteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -45,7 +45,8 @@ public class AthleteServiceImpl implements AthleteService {
                 .gender(athleteDTO.getGender())
                 .applyTime(new Date())
                 .name(athleteDTO.getName())
-                .state("申请中")
+                .grade(athleteDTO.getGrade())
+                .AthleteState("申请中")
                 .userId(athleteDTO.getUserId())
                 .build();
 
@@ -61,10 +62,33 @@ public class AthleteServiceImpl implements AthleteService {
      * @return {@code Athlete}
      */
     @Override
-    public Athlete selectApply(Integer id) {
-        
+    public Athlete selectApply(Integer id) throws NoAthleteException{
         Athlete athlete = athleteDao.selectByUserId(id);
+        if(athlete== null) {
+            throw new NoAthleteException("查不到");
+        }
+        System.out.println("athlete:" + athlete);
         return athlete;
+    }
+
+    /**
+     * 拒绝玩家
+     *
+     * @param id 编号
+     */
+    @Override
+    public void refusePlayer(Integer id) {
+        athleteDao.refusePlayer(id);
+    }
+
+    /**
+     * 按用户 ID 删除
+     *
+     * @param id 编号
+     */
+    @Override
+    public void deleteByUserId(Integer id) {
+        athleteDao.deleteByUserId(id);
     }
 
 

@@ -19,6 +19,7 @@ import com.lz.pojo.entity.User;
 import com.lz.pojo.result.PageResult;
 import com.lz.pojo.result.Result;
 import com.lz.pojo.vo.UserLoginVO;
+import com.lz.service.AthleteService;
 import com.lz.service.UserService;
 import com.lz.utils.JwtUtil;
 import com.lz.utils.MailUtils;
@@ -49,7 +50,8 @@ public class UserController {
     private UserService userService;
     @Autowired
     private UserDao userDao;
-
+    @Autowired
+    private AthleteService athleteService;
 
     /**
      * 验证
@@ -170,7 +172,7 @@ public class UserController {
                 user = new User();
                 user.setUserName(userRegisterDTO.getUsername());
                 user.setPassword(userRegisterDTO.getPassword());
-                user.setUserType("用户");
+                user.setUserType("学生");
                 user.setStatus("未启用");
                 user.setEmail(userRegisterDTO.getEmail());
                 user.setRegisterTime(new Date());
@@ -261,6 +263,19 @@ public class UserController {
         userService.examinePlayer(id);
         
         return Result.success("修改成功");
+    }
+
+    /**
+     * 拒绝申请运动员
+     *
+     * @param id 编号
+     *
+     * @return {@code Result}
+     */
+    @DeleteMapping("/athlete/{id}")
+    public Result refusePlayer(@PathVariable Integer id){
+        athleteService.refusePlayer(id);
+        return Result.success("拒绝成功");
     }
     
 }

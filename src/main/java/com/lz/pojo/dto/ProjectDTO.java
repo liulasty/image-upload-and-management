@@ -18,6 +18,8 @@ import java.io.Serializable;
 public class ProjectDTO implements Serializable {
     private String name;
     private Long event;
+    private String limitation;
+    private String grade;
     private ImgDTO[] imageUrls;
     private ImgDTO[] deleteImagesUrls;
     private String[] addImage;

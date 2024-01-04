@@ -8,6 +8,7 @@ package com.lz.controller;
  * @Description:
  */
 
+import com.lz.Exception.NoAthleteException;
 import com.lz.pojo.dto.AthleteDTO;
 import com.lz.pojo.entity.Athlete;
 import com.lz.pojo.result.Result;
@@ -25,20 +26,48 @@ public class AthleteController {
     
     @Autowired
     private AthleteService athleteService;
-    
+
+    /**
+     * 提交申请
+     *
+     * @param athleteDTO 运动员 DTO
+     *
+     * @return {@code Result}
+     */
     @PostMapping
     public Result add(@RequestBody AthleteDTO athleteDTO){
         
         athleteService.add(athleteDTO);
         
-        return Result.success("申请成功");
+        return Result.success("申请已提交");
     }
-    
+
+    /**
+     * 查询申请
+     *
+     * @param id 编号
+     *
+     * @return {@code Result<Athlete>}
+     */
     @GetMapping("/{id}")
-    public Result<Athlete> selectApply(@PathVariable Integer id){
+    public Result<Athlete> selectApply(@PathVariable Integer id) throws NoAthleteException {
         
         Athlete athlete = athleteService.selectApply(id);
         
         return Result.success(athlete);
+    }
+
+    /**
+     * 删除记录
+     *
+     * @param id 编号
+     *
+     * @return {@code Result<String>}
+     */
+    @DeleteMapping("/{id}")
+    public Result<String> deleteRecord(@PathVariable Integer id){
+        athleteService.deleteByUserId(id);
+        
+        return Result.success("删除成功");
     }
 }

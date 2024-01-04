@@ -103,6 +103,11 @@ public class UserServiceImpl implements com.lz.service.UserService {
         
     }
 
+    /**
+     * 检查播放器
+     *
+     * @param id 编号
+     */
     @Override
     public void examinePlayer(String id) {
         User user = new User();
@@ -111,7 +116,7 @@ public class UserServiceImpl implements com.lz.service.UserService {
         userDao.updateById(user);
 
         Athlete athlete =
-                Athlete.builder().agreeTime(new Date()).state("成功").build();
+                Athlete.builder().agreeTime(new Date()).AthleteState("成功").build();
 
         QueryWrapper<Athlete> whereWrapper = new QueryWrapper<>();
         whereWrapper.eq("UserId", Long.valueOf(id));
@@ -120,7 +125,7 @@ public class UserServiceImpl implements com.lz.service.UserService {
     }
 
     /**
-     * 按月获取用户数量
+     * 按月获取学生数量
      *
      * @param month 子
      *
@@ -131,7 +136,7 @@ public class UserServiceImpl implements com.lz.service.UserService {
         UserData userData = new UserData();
         userData.setDate(month);
         userData.setAddUser(userDao.getUserNumsByMonth(month));
-        userData.setAddUser(athleteDao.getAthleteNumsByMonth(month));
+        userData.setAddAthlete(athleteDao.getAthleteNumsByMonth(month));
         return userData;
     }
 
@@ -147,7 +152,7 @@ public class UserServiceImpl implements com.lz.service.UserService {
 
         UserType userType1 = new UserType();
         Integer userNums = userDao.getUserTotal();
-        userType1.setType("用户");
+        userType1.setType("学生");
         userType1.setNums(userNums);
         userTypes.add(userType1);
 

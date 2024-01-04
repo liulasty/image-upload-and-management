@@ -21,17 +21,50 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ProjectVO implements Serializable {
+    /**
+     * 项目 ID
+     */
     private Long projectId;
-    
+
+    /**
+     * 项目开始
+     */
     private Date start;
-    
+
+    /**
+     * 项目结束
+     */
+    private Date end;
+
+    /**
+     * 项目名字
+     */
     private String name;
     
     private Long eventId;
+    /**
+     * 活动名称
+     */
     private String eventName;
-    
+
+    /**
+     * 参赛方式
+     */
     private String state;
-    
+
+    /**
+     * 角色为运动员时，是否参加该项目
+     */
     private String isJoin;
+
+    /**
+     * 参赛年级
+     */
+    private String grade;
+
+    /**
+     * 参赛限制
+     */
+    private String limitation;
     
 }

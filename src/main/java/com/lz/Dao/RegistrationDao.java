@@ -55,4 +55,30 @@ public interface RegistrationDao extends BaseMapper<Registration> {
     @Select("select COUNT(DISTINCT AthleteID) from lz_sports.registration where RegistrationStatus = " +
             "'通过'")
     Integer getRegistrationPlayerTotal();
+
+    /**
+     * 运动员获取参赛记录
+     *
+     * @param pageSize 页面大小
+     * @param offset   抵消
+     * @param name     名字
+     * @param status   地位
+     * @param date     日期
+     * @param id       编号
+     *
+     * @return {@code List<RegistrationDTO>}
+     */
+    List<RegistrationDTO> getRegistrationsWithDetailsByPlayer(int pageSize, int offset, String name, String status, Date date, Long id);
+
+    /**
+     * 运动员获取参赛记录总数
+     *
+     * @param name   名字
+     * @param status 地位
+     * @param date   日期
+     * @param id     编号
+     *
+     * @return int
+     */
+    int getRegistrationsTotalByPlayer(String name, String status, Date date, Long id);
 }
