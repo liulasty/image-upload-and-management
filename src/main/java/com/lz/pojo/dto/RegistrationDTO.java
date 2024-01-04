@@ -28,6 +28,7 @@ public class RegistrationDTO implements Serializable {
     private String eventName;
     private Long itemId;
     private String itemName;
+    
     private Date registrationTime;
     private String registrationStatus;
 }

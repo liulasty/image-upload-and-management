@@ -13,6 +13,7 @@ import com.lz.Dao.UserDao;
 import com.lz.Exception.NoAthleteException;
 import com.lz.pojo.dto.AthleteDTO;
 import com.lz.pojo.entity.Athlete;
+import com.lz.pojo.entity.User;
 import com.lz.service.AthleteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -47,7 +48,7 @@ public class AthleteServiceImpl implements AthleteService {
                 .name(athleteDTO.getName())
                 .grade(athleteDTO.getGrade())
                 .AthleteState("申请中")
-                .userId(athleteDTO.getUserId())
+                .userId(Long.valueOf(athleteDTO.getUserId()))
                 .build();
 
         int insert = athleteDao.insert(athlete);
@@ -89,6 +90,12 @@ public class AthleteServiceImpl implements AthleteService {
     @Override
     public void deleteByUserId(Integer id) {
         athleteDao.deleteByUserId(id);
+    }
+
+    @Override
+    public Athlete selectOne(Integer id) {
+
+        return athleteDao.selectByUserId(id);
     }
 
 

@@ -54,4 +54,28 @@ public class Project {
      */
     @TableField("limitation")
     private String limitation;
+
+    /**
+     * 项目开始
+     */
+    @TableField("start")
+    private Date projectStart;
+
+    /**
+     * 项目结束
+     */
+    @TableField("end")
+    private Date projectEnd;
+
+    /**
+     * 最大参赛人数
+     */
+    @TableField("maxAttendance")
+    private Integer maxAttendance;
+
+    /**
+     * 参赛人数
+     */
+    @TableField("attendance")
+    private Integer attendance;
 }

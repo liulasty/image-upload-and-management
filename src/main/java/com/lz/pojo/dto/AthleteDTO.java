@@ -32,6 +32,8 @@ public class AthleteDTO implements Serializable {
     
     private String grade;
     
-    private Long userId;
+    private Integer userId;
+    
+    private Integer id;
 
 }

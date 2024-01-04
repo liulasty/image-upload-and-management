@@ -1,5 +1,6 @@
 package com.lz.service;
 
+import com.lz.pojo.dto.RegistrationAndAthleteDTO;
 import com.lz.pojo.dto.RegistrationDTO;
 import com.lz.pojo.result.PageResult;
 
@@ -66,4 +67,12 @@ public interface RegistrationService {
     void refuse(Long id);
 
 
+    /**
+     * 选择一项
+     *
+     * @param id 编号
+     *
+     * @return {@code RegistrationAndAthleteDTO}
+     */
+    RegistrationAndAthleteDTO selectOne(Long id);
 }

@@ -49,7 +49,7 @@ public class EventServiceImpl implements EventService {
     private SportsImgDao sportsImgDao;
     
     /**
-     * 字符串到数据
+     * 字符串到日期
      *
      * @param s s
      *

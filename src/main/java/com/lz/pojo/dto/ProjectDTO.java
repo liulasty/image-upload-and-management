@@ -20,6 +20,9 @@ public class ProjectDTO implements Serializable {
     private Long event;
     private String limitation;
     private String grade;
+    private Integer maxAttendance;
+    private Integer attendance;
+    private String[] date;
     private ImgDTO[] imageUrls;
     private ImgDTO[] deleteImagesUrls;
     private String[] addImage;

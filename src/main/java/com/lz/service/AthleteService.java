@@ -47,4 +47,13 @@ public interface AthleteService {
      * @param id 编号
      */
     void deleteByUserId(Integer id);
+
+    /**
+     * 选择一项
+     *
+     * @param id 编号
+     *
+     * @return {@code Athlete}
+     */
+    Athlete selectOne(Integer id);
 }

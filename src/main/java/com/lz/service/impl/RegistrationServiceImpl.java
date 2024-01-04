@@ -1,8 +1,15 @@
 package com.lz.service.impl;
 
 
+import com.lz.Dao.AthleteDao;
+import com.lz.Dao.EventDao;
+import com.lz.Dao.ProjectDao;
 import com.lz.Dao.RegistrationDao;
+import com.lz.pojo.dto.RegistrationAndAthleteDTO;
 import com.lz.pojo.dto.RegistrationDTO;
+import com.lz.pojo.entity.Athlete;
+import com.lz.pojo.entity.Event;
+import com.lz.pojo.entity.Project;
 import com.lz.pojo.entity.Registration;
 import com.lz.pojo.result.PageResult;
 import com.lz.service.RegistrationService;
@@ -20,6 +27,15 @@ public class RegistrationServiceImpl implements RegistrationService {
 
     @Autowired
     private RegistrationDao registrationDao;
+    
+    @Autowired
+    private AthleteDao athleteDao;
+    
+    @Autowired
+    private ProjectDao projectDao;
+    
+    @Autowired
+    private EventDao eventDao;
 
     /**
      * 列表
@@ -106,7 +122,38 @@ public class RegistrationServiceImpl implements RegistrationService {
         int i = registrationDao.updateById(registration);
     }
 
-    
+    /**
+     * 选择一项
+     *
+     * @param id 编号
+     *
+     * @return {@code RegistrationAndAthleteDTO}
+     */
+    @Override
+    public RegistrationAndAthleteDTO selectOne(Long id) {
+        Registration registration = registrationDao.selectById(id);
+        Athlete athlete = athleteDao.selectById(registration.getAthleteId());
+        Event event = eventDao.selectById(registration.getEventId());
+        Project project = projectDao.selectById(registration.getItemId());
+
+        return RegistrationAndAthleteDTO.builder()
+                .id(registration.getId())
+                .name(athlete.getName())
+                .age(athlete.getAge())
+                .gender(athlete.getGender())
+                .contact(athlete.getContact())
+                .athleteGrade(athlete.getGrade())
+                .eventId(event.getEventId())
+                .eventName(event.getEventName())
+                .itemId(project.getItemID())
+                .itemName(project.getItemName())
+                .num(project.getAttendance())
+                .maxNum(project.getMaxAttendance())
+                .limitation(project.getLimitation())
+                .grade(project.getGrade())
+                .applyTime(registration.getTime())
+                .build();
+    }
 
 
 }

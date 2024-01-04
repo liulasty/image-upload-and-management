@@ -66,5 +66,24 @@ public class ProjectVO implements Serializable {
      * 参赛限制
      */
     private String limitation;
+
+    /**
+     * 项目开始
+     */
+    private Date projectStart;
+
+    /**
+     * 项目结束
+     */
+    private Date projectEnd;
+
+    /**
+     * 最大参赛人数
+     */
+    private Integer maxAttendance;
+    /**
+     * 已参赛参赛人数
+     */
+    private Integer attendance;
     
 }

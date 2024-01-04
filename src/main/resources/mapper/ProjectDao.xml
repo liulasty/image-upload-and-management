@@ -25,7 +25,9 @@
 	<select id="selectProject" resultType="com.lz.pojo.vo.ProjectVO">
 		select ItemID as projectId,e.RegistrationStart as start,ItemName as name,
 		       grade,limitation,e.RegistrationEnd as end,
-		       e.EventID as eventId,  EventName as eventName,Eligibility as state
+		       e.EventID as eventId,  EventName as eventName,Eligibility as state,
+		       item.start as projectStart,item.end as projectEnd,
+		       item.attendance as attendance,item.maxAttendance as maxAttendance
 		from lz_sports.eventitem item
 		left join lz_sports.event e on item.EventID = e.EventID
 		<where>
@@ -39,7 +41,7 @@
 				AND RegistrationStart > #{date}
 			</if>
 		</where>
-		ORDER BY e.RegistrationStart
+		ORDER BY ItemID
 		LIMIT #{pageSize} OFFSET #{currentPage}
 	</select>
 </mapper>

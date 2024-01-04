@@ -43,19 +43,36 @@ public class AthleteController {
     }
 
     /**
-     * 查询申请
+     * 查询运动员申请
      *
      * @param id 编号
      *
      * @return {@code Result<Athlete>}
      */
-    @GetMapping("/{id}")
+    @GetMapping("/apply/{id}")
     public Result<Athlete> selectApply(@PathVariable Integer id) throws NoAthleteException {
         
         Athlete athlete = athleteService.selectApply(id);
         
         return Result.success(athlete);
     }
+
+    /**
+     * 查询运动员信息
+     *
+     * @param id 编号
+     *
+     * @return {@code Result<Athlete>}
+     */
+    @GetMapping("/{id}")
+    public Result<Athlete> selectAthlete(@PathVariable Integer id) throws NoAthleteException {
+
+        Athlete athlete = athleteService.selectOne(id);
+
+        return Result.success(athlete);
+    }
+    
+    
 
     /**
      * 删除记录

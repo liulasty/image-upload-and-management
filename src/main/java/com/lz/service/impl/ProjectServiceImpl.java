@@ -18,6 +18,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
@@ -48,6 +50,13 @@ public class ProjectServiceImpl implements ProjectService {
     private AthleteDao  athleteDao;
 
 
+    /**
+     * 运动员查询参赛分页
+     *
+     * @param listDto 列出 DTO
+     *
+     * @return {@code PageResult}
+     */
     @Override
     public PageResult listByAthlete(EventListDto listDto) {
         System.out.println("listDto:" + listDto);
@@ -86,9 +95,16 @@ public class ProjectServiceImpl implements ProjectService {
 
     }
 
+    /**
+     * 运动员查询参赛记录列表
+     *
+     * @param listDto 列出 DTO
+     *
+     * @return {@code PageResult}
+     */
     @Override
     public PageResult list(EventListDto listDto) {
-        System.out.println("listDto:" + listDto);
+        // System.out.println("listDto:" + listDto);
 
         List<ProjectVO> projectVos = projectDao.selectProject(listDto);
 
@@ -96,28 +112,7 @@ public class ProjectServiceImpl implements ProjectService {
         QueryWrapper<Athlete> athleteQW = Wrappers.query();
         athleteQW.eq("UserID", uid);
         Athlete athlete = athleteDao.selectOne(athleteQW);
-        if(athlete == null){
-            System.out.println("管理员");
-        }else {
-            for (ProjectVO projectVo : projectVos) {
-                QueryWrapper<Registration> queryWrapper = Wrappers.query();
-                queryWrapper.eq("AthleteID", athlete.getAthleteId());
-                queryWrapper.eq("ItemID",projectVo.getProjectId());
-                queryWrapper.eq("EventID",projectVo.getEventId());
-
-                Registration registration = registrationDao.selectOne(queryWrapper);
-
-                if (registration == null) {
-                    projectVo.setIsJoin("未参加");
-                }else {
-                    projectVo.setIsJoin(registration.getStatus());
-                }
-
-
-            }
-        }
         
-
         long total = projectDao.selectProjectTotal(listDto);
 
         return new PageResult(total, projectVos);
@@ -138,6 +133,9 @@ public class ProjectServiceImpl implements ProjectService {
                         .createTime(new Date())
                         .grade(projectDTO.getGrade())
                         .limitation(projectDTO.getLimitation())
+                        .maxAttendance(projectDTO.getMaxAttendance())
+                        .projectStart(stringToDate(projectDTO.getDate()[0]))
+                        .projectEnd(stringToDate(projectDTO.getDate()[1]))
                         .build();
         int insert = projectDao.insert(project);
 
@@ -154,6 +152,28 @@ public class ProjectServiceImpl implements ProjectService {
         }
 
 
+    }
+
+    /**
+     * 字符串到日期
+     *
+     * @param s s
+     *
+     * @return {@code Date}
+     */
+    public Date stringToDate(String s) {
+
+        String pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'";
+
+        SimpleDateFormat formatter = new SimpleDateFormat(pattern);
+        Date date = null;
+        try {
+            date = formatter.parse(s);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        return date;
     }
 
     @Override
@@ -185,11 +205,13 @@ public class ProjectServiceImpl implements ProjectService {
     @Override
     public void delete(Long id) throws SQLException {
 
-        QueryWrapper<Registration> RegistrationQW = Wrappers.query();
-        RegistrationQW.eq("UserID", id);
-        Registration registration = registrationDao.selectOne(RegistrationQW);
-        if (registration == null){
-            throw new SQLException("删除失败，请先删除相关报名记录");
+        QueryWrapper<Registration> registrationQw = Wrappers.query();
+        Project project = projectDao.selectById(id);
+
+        registrationQw.eq("ItemID", id);
+        Registration registration = registrationDao.selectOne(registrationQw);
+        if (registration != null || project.getAttendance() != 0){
+            throw new SQLException("删除失败，请先删除相关记录");
         }
         int i = projectDao.deleteById(id);
         
@@ -213,6 +235,8 @@ public class ProjectServiceImpl implements ProjectService {
                 .grade(project.getGrade())
                 .limitation(project.getLimitation())
                 .addImage(list.toArray(array))
+                .attendance(project.getAttendance())
+                .maxAttendance(project.getMaxAttendance())
                 .build();
     }
 
@@ -228,7 +252,17 @@ public class ProjectServiceImpl implements ProjectService {
         User user = userDao.selectById(id);
         
         if(!Objects.equals(user.getUserType(), "运动员")){
+            
             throw new MyException("请登录重试");
+        }
+
+        Project project = projectDao.selectById(joinProjectDTO.getProjectId());
+        
+        if(project.getAttendance() >= project.getMaxAttendance()){
+            throw new MyException("请退出登录重试");
+        }else {
+            project.setAttendance(project.getAttendance()+1);
+            projectDao.updateById(project);
         }
         QueryWrapper<Athlete> queryWrapper = Wrappers.query();
         queryWrapper.eq("UserID", id);
@@ -241,7 +275,10 @@ public class ProjectServiceImpl implements ProjectService {
                 .status("审核中")
                 .time(new Date())
                 .build();
+        
         int insert = registrationDao.insert(registration);
+        
+        
         
         
 

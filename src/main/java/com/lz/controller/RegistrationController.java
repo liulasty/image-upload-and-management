@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.lz.Dao.AthleteDao;
 import com.lz.context.BaseContext;
+import com.lz.pojo.dto.RegistrationAndAthleteDTO;
 import com.lz.pojo.entity.Athlete;
 import com.lz.pojo.result.PageResult;
 import com.lz.pojo.result.Result;
@@ -74,6 +75,12 @@ public class RegistrationController {
 
         return Result.success(registrationList);
     }
+    @GetMapping("/{id}")
+    public Result<RegistrationAndAthleteDTO> registrationQuery(@PathVariable Long id){
+        RegistrationAndAthleteDTO registrationAndAthleteDTO =
+                registrationService.selectOne(id);
+        return Result.success(registrationAndAthleteDTO);
+    }
 
     /**
      * 删除
@@ -89,7 +96,7 @@ public class RegistrationController {
     }
 
     /**
-     * 同意参加参加
+     * 同意参加项目
      *
      * @param id 编号
      *
@@ -113,7 +120,7 @@ public class RegistrationController {
     public Result<String> refuse(@PathVariable Long id){
         registrationService.refuse(id);
 
-        return Result.success("同意参加");
+        return Result.success("驳回申请");
     }
 
     public Date stringToData(String s){
