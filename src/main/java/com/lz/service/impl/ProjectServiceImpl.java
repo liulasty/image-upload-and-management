@@ -51,7 +51,7 @@ public class ProjectServiceImpl implements ProjectService {
 
 
     /**
-     * 运动员查询参赛分页
+     * 运动员查询项目参赛分页
      *
      * @param listDto 列出 DTO
      *
@@ -59,7 +59,7 @@ public class ProjectServiceImpl implements ProjectService {
      */
     @Override
     public PageResult listByAthlete(EventListDto listDto) {
-        System.out.println("listDto:" + listDto);
+        // System.out.println("listDto:" + listDto);
 
         List<ProjectVO> projectVos = projectDao.selectProject(listDto);
 
@@ -96,7 +96,7 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     /**
-     * 运动员查询参赛记录列表
+     * 查询项目列表
      *
      * @param listDto 列出 DTO
      *
@@ -108,10 +108,6 @@ public class ProjectServiceImpl implements ProjectService {
 
         List<ProjectVO> projectVos = projectDao.selectProject(listDto);
 
-        Long uid = BaseContext.getCurrentId();
-        QueryWrapper<Athlete> athleteQW = Wrappers.query();
-        athleteQW.eq("UserID", uid);
-        Athlete athlete = athleteDao.selectOne(athleteQW);
         
         long total = projectDao.selectProjectTotal(listDto);
 

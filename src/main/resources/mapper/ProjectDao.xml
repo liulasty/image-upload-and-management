@@ -35,7 +35,7 @@
 				AND ItemName like CONCAT('%', #{name}, '%')
 			</if>
 			<if test="type != null and type != ''">
-				AND EventName = #{type}
+				AND e.EventName = #{type}
 			</if>
 			<if test="date != null">
 				AND RegistrationStart > #{date}

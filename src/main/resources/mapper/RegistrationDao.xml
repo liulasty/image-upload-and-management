@@ -87,4 +87,9 @@
 			</if>
 		</where>
 	</select>
+	<select id="getRegistrationTotalByPlayer" resultType="java.lang.Integer">
+		select count(*)
+		from lz_sports.registration
+		where AthleteID = #{id}
+	</select>
 </mapper>

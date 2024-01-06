@@ -10,6 +10,7 @@ package com.lz.service;
 
 import com.lz.Exception.NoAthleteException;
 import com.lz.pojo.dto.AthleteDTO;
+import com.lz.pojo.dto.AthleteUpdateDTO;
 import com.lz.pojo.entity.Athlete;
 
 /**
@@ -56,4 +57,12 @@ public interface AthleteService {
      * @return {@code Athlete}
      */
     Athlete selectOne(Integer id);
+
+    /**
+     * 更新
+     *
+     * @param id               编号
+     * @param athleteUpdateDTO 运动员更新 DTO
+     */
+    void update(Integer id, AthleteUpdateDTO athleteUpdateDTO);
 }

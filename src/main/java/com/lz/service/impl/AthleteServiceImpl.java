@@ -12,6 +12,7 @@ import com.lz.Dao.AthleteDao;
 import com.lz.Dao.UserDao;
 import com.lz.Exception.NoAthleteException;
 import com.lz.pojo.dto.AthleteDTO;
+import com.lz.pojo.dto.AthleteUpdateDTO;
 import com.lz.pojo.entity.Athlete;
 import com.lz.pojo.entity.User;
 import com.lz.service.AthleteService;
@@ -96,6 +97,33 @@ public class AthleteServiceImpl implements AthleteService {
     public Athlete selectOne(Integer id) {
 
         return athleteDao.selectByUserId(id);
+    }
+
+    /**
+     * 更新
+     *
+     * @param id               编号
+     * @param athleteUpdateDTO 运动员更新 DTO
+     */
+    @Override
+    public void update(Integer id, AthleteUpdateDTO athleteUpdateDTO) {
+        Athlete athlete = athleteDao.selectById(id);
+        athleteDao.deleteById(id);
+        User user = userDao.selectById(athlete.getUserId());
+        user.setUserType("学生");
+        userDao.updateById(user);
+        
+        athlete.setApplyTime(new Date());
+        athlete.setAgreeTime(null);
+        
+        athlete.setName(athleteUpdateDTO.getName());
+        athlete.setAge(athlete.getAge());
+        athlete.setGender(athlete.getGender());
+        athlete.setGrade(athlete.getGrade());
+        athlete.setContact(athlete.getContact());
+        athlete.setAthleteState("申请中");
+        athleteDao.insert(athlete);
+        
     }
 
 

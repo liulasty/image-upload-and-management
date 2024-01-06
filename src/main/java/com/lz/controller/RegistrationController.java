@@ -1,6 +1,7 @@
 package com.lz.controller;
 
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.lz.Dao.AthleteDao;
@@ -75,11 +76,33 @@ public class RegistrationController {
 
         return Result.success(registrationList);
     }
+
+    /**
+     * 参赛记录查询
+     *
+     * @param id 编号
+     *
+     * @return {@code Result<RegistrationAndAthleteDTO>}
+     */
     @GetMapping("/{id}")
     public Result<RegistrationAndAthleteDTO> registrationQuery(@PathVariable Long id){
         RegistrationAndAthleteDTO registrationAndAthleteDTO =
                 registrationService.selectOne(id);
         return Result.success(registrationAndAthleteDTO);
+    }
+
+    /**
+     * 获取运动员参加总数
+     *
+     * @param id 编号
+     *
+     * @return {@code Result<Integer>}
+     */
+    @GetMapping("/athlete/{id}")
+    public Result<Integer> getAthleteRegistrationTotal(@PathVariable Long id){
+        int total= registrationService.getRegistrationTotalByAthlete(id);
+        
+        return Result.success(total);
     }
 
     /**
@@ -91,8 +114,8 @@ public class RegistrationController {
      */
     @DeleteMapping("/{id}")
     public Result<String> delete(@PathVariable Long id){
-        registrationService.delete(id);
-        return Result.success("删除成功");
+        Result<String> result =registrationService.delete(id);
+        return result;
     }
 
     /**

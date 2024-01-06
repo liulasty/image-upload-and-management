@@ -10,6 +10,7 @@ package com.lz.controller;
 
 import com.lz.Exception.NoAthleteException;
 import com.lz.pojo.dto.AthleteDTO;
+import com.lz.pojo.dto.AthleteUpdateDTO;
 import com.lz.pojo.entity.Athlete;
 import com.lz.pojo.result.Result;
 import com.lz.service.AthleteService;
@@ -70,6 +71,14 @@ public class AthleteController {
         Athlete athlete = athleteService.selectOne(id);
 
         return Result.success(athlete);
+    }
+    
+    @PutMapping("/{id}")
+    public Result<String> updateAthlete(@PathVariable Integer id,
+                                        @RequestBody AthleteUpdateDTO athleteUpdateDTO){
+        athleteService.update(id,athleteUpdateDTO);
+        
+        return Result.success("更新成功");
     }
     
     

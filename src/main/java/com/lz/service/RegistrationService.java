@@ -1,8 +1,8 @@
 package com.lz.service;
 
 import com.lz.pojo.dto.RegistrationAndAthleteDTO;
-import com.lz.pojo.dto.RegistrationDTO;
 import com.lz.pojo.result.PageResult;
+import com.lz.pojo.result.Result;
 
 import java.util.Date;
 
@@ -49,8 +49,9 @@ public interface RegistrationService {
      * 删除参赛记录
      *
      * @param id 编号
+     * @return
      */
-    void delete(Long id);
+    Result<String> delete(Long id);
 
     /**
      * 同意参加
@@ -75,4 +76,13 @@ public interface RegistrationService {
      * @return {@code RegistrationAndAthleteDTO}
      */
     RegistrationAndAthleteDTO selectOne(Long id);
+
+    /**
+     * 按运动员获取参赛记录总数
+     *
+     * @param id 编号
+     *
+     * @return int
+     */
+    int getRegistrationTotalByAthlete(Long id);
 }

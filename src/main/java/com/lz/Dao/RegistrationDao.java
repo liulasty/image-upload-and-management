@@ -81,4 +81,6 @@ public interface RegistrationDao extends BaseMapper<Registration> {
      * @return int
      */
     int getRegistrationsTotalByPlayer(String name, String status, Date date, Long id);
+
+    int getRegistrationTotalByPlayer(Long id);
 }
