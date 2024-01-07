@@ -180,6 +180,7 @@ public class ProjectServiceImpl implements ProjectService {
                         .itemName(projectDTO.getName())
                         .limitation(projectDTO.getLimitation())
                         .grade(projectDTO.getGrade())
+                        .maxAttendance(projectDTO.getMaxAttendance())
                         .itemID(id).build();
         int i = projectDao.updateById(project);
         Long itemId = project.getItemID();

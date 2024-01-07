@@ -26,10 +26,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 /**
  * @author lz
@@ -145,7 +142,7 @@ public class ImgController {
     public  ResponseEntity<String> imageList(@RequestBody String[] imageList){
 
         try {
-            System.out.println("imageList = " + imageList.toString());
+            System.out.println("imageList = " + Arrays.toString(imageList));
             return ResponseEntity.status(HttpStatus.OK).body(
                     "接受成功");
 
@@ -203,6 +200,27 @@ public class ImgController {
         ossClient.shutdown();
         
         return strings.toString();
+    }
+
+    @PostMapping("/uploadAvatar")
+    public Result<String> uploadAvatar(@RequestParam("file") MultipartFile file){
+        try {
+            // 生成唯一的文件名
+            String fileName = UUID.randomUUID().toString() + "-" + file.getOriginalFilename();
+
+            // 创建OSSClient实例
+            OSS ossClient = new OSSClientBuilder().build(endpoint, accessKeyId, accessKeySecret);
+
+            // 上传文件到阿里云Bucket
+            ossClient.putObject(bucketName, fileName, file.getInputStream());
+
+            // 关闭OSSClient
+            ossClient.shutdown();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        
+        return Result.success("上传成功");
     }
     
 }
