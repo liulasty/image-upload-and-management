@@ -140,6 +140,7 @@ public class UserController {
     public Result logout(){
         Long currentId = BaseContext.getCurrentId();
         String s = currentId.toString();
+        BaseContext.removeCurrentId();
         if (!"0".equals(s)){
             BaseContext.removeCurrentId();
             return Result.success("登出");

@@ -9,6 +9,7 @@ import java.util.List;
 
 /**
  * 封装分页查询结果
+ * @author lz
  */
 @Data
 @AllArgsConstructor
@@ -17,6 +18,9 @@ public class PageResult implements Serializable {
 
     private long total; //总记录数
 
-    private List records; //当前页数据集合
+    /**
+    当前页数据集合
+     */
+    private List records; 
 
 }
