@@ -1,5 +1,7 @@
 package com.lz.service;
 
+import com.lz.pojo.entity.SportsImg;
+
 import java.util.List;
 
 /**
@@ -11,12 +13,29 @@ import java.util.List;
  */
 public interface SportsImgService {
     /**
-     * 选择IMG
+     * 查找IMGs
      *
      * @param id   编号
      * @param type 类型
      *
      * @return {@code String[]}
      */
-    public List<String> selectImg(Long id, String type);
+    public List<String> selectImgs(Long id, String type);
+
+    /**
+     * 添加 图片src
+     *
+     * @param sportsImg 体育IMG
+     */
+    void addSrc(SportsImg sportsImg) throws Exception;
+
+    /**
+     * 查找 img
+     *
+     * @param userId 用户 ID
+     * @param avatar 化身
+     *
+     * @return {@code SportsImg}
+     */
+    String selectImg(Long userId, String avatar);
 }

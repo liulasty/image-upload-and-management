@@ -73,4 +73,11 @@ public interface UserService {
      * @return {@code int[]}
      */
     int[] getNums();
+
+    /**
+     * 查找用户信息
+     *
+     * @return {@code List<UserType>}
+     */
+    User selectUserInfo();
 }

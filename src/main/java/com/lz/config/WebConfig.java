@@ -9,15 +9,11 @@ package com.lz.config;
  */
 
 import com.lz.Interceptor.JwtTokenAdminInterceptor;
-import com.lz.exceptionHandling.GlobalControllerAdvice;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.servlet.HandlerExceptionResolver;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-
-import java.util.List;
 
 /**
  * Web 配置
@@ -40,7 +36,9 @@ public class WebConfig implements WebMvcConfigurer {
                                                                               "/sports/user/register",
                                                                               "/sports/user/active/*",
                                                                               "/sports/img/upload",
-                                                                              "/sports/user/logout");
+                                                                              "/sports/user/logout",
+                                                                              "/hello/*",
+                                                                              "/static/*");
         
     }
 

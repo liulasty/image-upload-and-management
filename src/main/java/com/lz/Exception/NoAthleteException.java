@@ -9,7 +9,10 @@ package com.lz.Exception;
  */
 
 /**
+ * 没有运动员异常
+ *
  * @author lz
+ * @date 2024/03/11
  */
 public class NoAthleteException extends Exception{
     private String message;
@@ -20,10 +23,10 @@ public class NoAthleteException extends Exception{
     }
 
     /**
-     * Returns the detail message string of this throwable.
+     * 返回此可抛出对象的详细信息消息字符串。
      *
-     * @return the detail message string of this {@code Throwable} instance
-     * (which may be {@code null}).
+     * @return此 {@code Throwable} 实例的详细消息字符串
+     *（可能是 {@code null}）。
      */
     @Override
     public String getMessage() {

@@ -9,8 +9,11 @@ package com.lz.context;
  */
 
 /**
+ * 基本上下文
+ *
  * @author lz
  * 一个用于存储和获取当前线程中的Long类型ID的工具类。它使用了Java中的ThreadLocal类来实现。
+ * @date 2024/02/08
  */
 public class BaseContext {
     public static ThreadLocal<Long> threadLocal = new ThreadLocal<>();

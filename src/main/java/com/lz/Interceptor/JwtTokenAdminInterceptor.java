@@ -8,7 +8,9 @@ package com.lz.Interceptor;
  * @Description:
  */
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.lz.config.AppConfig;
+import com.lz.pojo.error.ErrorResponse;
 import com.lz.utils.JwtUtil;
 import com.lz.context.BaseContext;
 import lombok.extern.slf4j.Slf4j;
@@ -61,10 +63,10 @@ public class JwtTokenAdminInterceptor implements HandlerInterceptor {
             log.info("jwt校验:{}", token);
             Map<String, Object> map = JwtUtil.parseToken(token, appConfig.getJwtKey());
             Integer id = (Integer) map.get("id");
-            log.info("当前员工id：{}", id);
+            log.info("当前用户id：{}", id);
             String username = (String) map.get("username");
-            log.info("当前员工：{}", username);
-            BaseContext.setCurrentId(((long) id.intValue()));
+            log.info("当前用户：{}", username);
+            BaseContext.setCurrentId(((long) id));
 
             //3、通过，放行
             return true;
@@ -72,7 +74,25 @@ public class JwtTokenAdminInterceptor implements HandlerInterceptor {
             //4、不通过，响应401状态码
             ex.printStackTrace();
             log.info("校验失败");
-            response.setStatus(401);
+            response.setStatus(200);
+
+            // 创建ErrorResponse对象，并设置错误信息
+            ErrorResponse errorResponse = new ErrorResponse();
+            errorResponse.setStatus(200);
+            errorResponse.setCode("1");
+            errorResponse.setMessage("令牌校验失败");
+            errorResponse.setTimestamp(System.currentTimeMillis());
+
+            // 将错误信息以JSON格式返回给客户端
+            ObjectMapper objectMapper = new ObjectMapper();
+            String jsonResponse = objectMapper.writeValueAsString(errorResponse);
+
+            response.setContentType("application/json");
+            response.setCharacterEncoding("UTF-8");
+            response.getWriter().write(jsonResponse);
+            response.getWriter().flush();
+            response.getWriter().close();
+            
             return false;
         }
     }

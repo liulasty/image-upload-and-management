@@ -12,15 +12,24 @@ jwt:
   KEY: lz
   
 spring:
+  thymeleaf:
+    cache: false
+    prefix: classpath:/templates/
+    suffix: .html
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/lz_sports?serverTimezone=GMT%2B8&characterEncoding=utf-8&useSSL=false
     username: root
     password: root
     type: com.alibaba.druid.pool.DruidDataSource
+  web:
+    resources:
+      static-locations: /dist
 # 开启日志
 mybatis-plus:
   configuration:
-    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    # log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    log-impl: org.apache.ibatis.logging.nologging.NoLoggingImpl
+  #  启动Banner是在应用程序启动时打印的MyBatis-Plus的Logo和版本信息，默认情况下是启用的。
   global-config:
     banner: false

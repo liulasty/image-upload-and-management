@@ -30,14 +30,23 @@ public class OrderData<T> implements Serializable{
                 "20191005", "20191006", "20191007"};
         // 获取当前日期
         LocalDate currentDate = LocalDate.now();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
-        // 获取前六天的日期 
+
+        // 创建日期格式化器，指定格式为yyyyMM
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMM");
+
+        // 获取前六个月的日期
         for (int i = 6; i >= 0; i--) {
-            LocalDate sixDaysAgo = currentDate.minusDays(i);
-            String formattedSixDaysAgo = sixDaysAgo.format(formatter);
-            date[6-i]=formattedSixDaysAgo;
+            // 通过当前日期减去i个月，得到前六个月的日期
+            LocalDate sixMonthsAgo = currentDate.minusMonths(i);
+
+            // 将日期转换为指定格式的字符串
+            String formattedSixMonthsAgo = sixMonthsAgo.format(formatter);
+
+            // 将格式化后的日期存入数组中
+            date[6-i] = formattedSixMonthsAgo;
         }
-        
+
+
 
         this.date = date;
     }

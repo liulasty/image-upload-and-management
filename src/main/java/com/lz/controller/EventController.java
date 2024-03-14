@@ -26,7 +26,6 @@ import com.lz.utils.DataUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import javax.lang.model.element.VariableElement;
 import java.sql.SQLException;
 import java.sql.SQLIntegrityConstraintViolationException;
 import java.text.ParseException;
@@ -167,8 +166,8 @@ public class EventController {
 
         try {
             Event event = eventService.getEventId(eventId);
-            List<String> eventImg = sportsImgService.selectImg(event.getEventId(),
-                                                               "活动图片");
+            List<String> eventImg = sportsImgService.selectImgs(event.getEventId(),
+                                                                "活动图片");
             EventVO eventVO = EventVO.builder()
                     .name(event.getEventName())
                     .date(DataUtil.dateToString(event.getRegistrationStart()))

@@ -18,7 +18,7 @@
 			SUM(CASE WHEN eligibility = '线下报名' THEN 1 ELSE 0 END) AS offline,
 			SUM(CASE WHEN eligibility NOT IN ('线上报名', '单位报名', '线下报名') THEN 1 ELSE 0 END) AS other
 		FROM lz_sports.Event
-		WHERE DATE(registrationStart) = (#{date})
+		WHERE DATE_FORMAT(registrationStart, '%Y%m') = (#{date})
 	</select>
 
 

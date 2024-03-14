@@ -14,8 +14,11 @@ import com.aliyun.oss.model.ListObjectsRequest;
 import com.aliyun.oss.model.OSSObjectSummary;
 import com.aliyun.oss.model.ObjectListing;
 import com.lz.Dao.SportsImgDao;
+import com.lz.context.BaseContext;
 import com.lz.pojo.entity.SportsImg;
 import com.lz.pojo.result.Result;
+import com.lz.service.ImgService;
+import com.lz.service.SportsImgService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -47,9 +50,12 @@ public class ImgController {
 
     @Value("${aliyun.oss.bucketName}")
     private String bucketName;
-    
+
     @Autowired
     private SportsImgDao sportsImgDao;
+    
+    @Autowired
+    private SportsImgService sportsImgService;
 
     /**
      * 上传图片
@@ -62,8 +68,9 @@ public class ImgController {
     public ResponseEntity<String> uploadImage(@RequestParam("file") MultipartFile file) {
         HttpHeaders headers = new HttpHeaders();
         try {
+            String folderName = "photos/";
             // 生成唯一的文件名
-            String fileName = UUID.randomUUID().toString() + "-" + file.getOriginalFilename();
+            String fileName = folderName + UUID.randomUUID().toString() + "-" + file.getOriginalFilename();
 
             // 创建OSSClient实例
             OSS ossClient = new OSSClientBuilder().build(endpoint, accessKeyId, accessKeySecret);
@@ -101,11 +108,11 @@ public class ImgController {
      * @return {@code ResponseEntity<String>}
      */
     @DeleteMapping("/delete")
-    public ResponseEntity<String> deleteImages(String deleteImagesUrl){
+    public ResponseEntity<String> deleteImages(String deleteImagesUrl) {
         HttpHeaders headers = new HttpHeaders();
-        
+
         String deleteImg =
-                deleteImagesUrl.substring(deleteImagesUrl.lastIndexOf('/')+1);
+                deleteImagesUrl.substring(deleteImagesUrl.lastIndexOf('/') + 1);
         try {
             // 创建 OSS 客户端
             OSS ossClient = new OSSClientBuilder().build(endpoint, accessKeyId, accessKeySecret);
@@ -119,7 +126,7 @@ public class ImgController {
                     // 设置响应头
                     .headers(headers)
                     // 设置响应体
-                    .body(deleteImg);  
+                    .body(deleteImg);
 
             return responseEntity;
         } catch (Exception e) {
@@ -139,7 +146,7 @@ public class ImgController {
      * @return {@code ResponseEntity<String>}
      */
     @PostMapping("/imageList")
-    public  ResponseEntity<String> imageList(@RequestBody String[] imageList){
+    public ResponseEntity<String> imageList(@RequestBody String[] imageList) {
 
         try {
             System.out.println("imageList = " + Arrays.toString(imageList));
@@ -159,18 +166,18 @@ public class ImgController {
      * @return {@code Result}
      */
     @GetMapping("/getEventImg/{eventId}")
-    public Result getEventImg(@PathVariable Long eventId){
+    public Result getEventImg(@PathVariable Long eventId) {
         HashMap<String, Object> map = new HashMap<>();
-        map.put("ImgType","活动");
-        map.put("typeId",eventId);
+        map.put("ImgType", "活动");
+        map.put("typeId", eventId);
         try {
             List<SportsImg> sportsImgs = sportsImgDao.selectByMap(map);
-            
-            return Result.success(sportsImgs,"获取成功");
+
+            return Result.success(sportsImgs, "获取成功");
         } catch (Exception e) {
             e.printStackTrace();
         }
-        
+
         return Result.error("系统错误");
 
     }
@@ -181,7 +188,7 @@ public class ImgController {
      * @return {@code String}
      */
     @GetMapping("/getALLImg")
-    public String getAllImgName(){
+    public String getAllImgName() {
         // 创建OSSClient实例
         OSS ossClient = new OSSClientBuilder().build(endpoint, accessKeyId, accessKeySecret);
 
@@ -198,15 +205,18 @@ public class ImgController {
 
         // 关闭OSSClient
         ossClient.shutdown();
-        
+
         return strings.toString();
     }
 
     @PostMapping("/uploadAvatar")
-    public Result<String> uploadAvatar(@RequestParam("file") MultipartFile file){
+    public Result<String> uploadAvatar(@RequestParam("file") MultipartFile file) {
+        String fileName;
         try {
+            String folderName = "avatar/";
             // 生成唯一的文件名
-            String fileName = UUID.randomUUID().toString() + "-" + file.getOriginalFilename();
+            fileName =
+                    folderName + UUID.randomUUID().toString() + "-" + file.getOriginalFilename();
 
             // 创建OSSClient实例
             OSS ossClient = new OSSClientBuilder().build(endpoint, accessKeyId, accessKeySecret);
@@ -216,11 +226,22 @@ public class ImgController {
 
             // 关闭OSSClient
             ossClient.shutdown();
-        }catch (Exception e){
+            System.out.println("fileName:" + fileName);
+
+            Long currentId = BaseContext.getCurrentId();
+            SportsImg sportsImg = SportsImg.builder().imgType("avatar")
+                    .typeId(currentId)
+                    .imgSrc(fileName).build();
+            System.out.println("sportsImg:" + sportsImg);
+            
+            sportsImgService.addSrc(sportsImg);
+        } catch (Exception e) {
             e.printStackTrace();
+            return Result.error("上传失败");
         }
-        
-        return Result.success("上传成功");
+
+
+        return Result.success(bucketName+"."+endpoint+"/"+fileName,"上传成功" );
     }
-    
+
 }

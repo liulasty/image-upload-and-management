@@ -11,7 +11,10 @@ package com.lz.utils;
 import org.apache.logging.log4j.util.Base64Util;
 
 /**
+ * OSS系统
+ *
  * @author lz
+ * @date 2024/02/07
  */
 public class OssUtil {
     public static String updateImage(){

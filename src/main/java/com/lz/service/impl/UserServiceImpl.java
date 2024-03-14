@@ -10,6 +10,7 @@ package com.lz.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.lz.Dao.*;
+import com.lz.context.BaseContext;
 import com.lz.pojo.dto.EventListDto;
 import com.lz.pojo.dto.UserLoginDTO;
 import com.lz.pojo.entity.Athlete;
@@ -191,6 +192,18 @@ public class UserServiceImpl implements com.lz.service.UserService {
         nums[4] = eventDao.getEventNumsByMonth(year,month);
         nums[5] = projectDao.getProjectNumsByMonth(year,month);
         return nums;
+    }
+
+    /**
+     * 查找用户信息
+     *
+     * @return {@code List<UserType>}
+     */
+    @Override
+    public User selectUserInfo() {
+        Long currentId = BaseContext.getCurrentId();
+        User user = userDao.selectById(currentId);
+        return user;
     }
 
 

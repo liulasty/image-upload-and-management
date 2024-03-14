@@ -28,7 +28,7 @@ public class UserLoginVO {
     private Long id;
     private String userName;
     private String type;
-
+    private String avatarSrc;
     
     private String token;
 }
