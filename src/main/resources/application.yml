@@ -1,34 +1,11 @@
-#aliyun:
-#  oss:
-#    accessKeyId: LTAI5tLorm8Chk5pfMgc4Kre
-#    accessKeySecret: gBooyUxf38qMAucnkKv1GkBbKcqd0x
-#    endpoint: oss-cn-beijing.aliyuncs.com
-#    bucketName: image-upload-and-management
-#server:
-#  port: 80
-#  
-#jwt:
-#  KEY: lz
-  
 # application.yml  
 spring:
   profiles:
     active: dev # 这里可以设置默认激活的Profile，比如开发环境
-#  profiles:
-#    active: dev
-#  config:
-#    activate:
-#      on-profile: dev
   thymeleaf:
     cache: false
     prefix: classpath:/templates/
     suffix: .html
-#  datasource:
-#    driver-class-name: com.mysql.cj.jdbc.Driver
-#    url: jdbc:mysql://localhost:3306/lz_sports?serverTimezone=GMT%2B8&characterEncoding=utf-8&useSSL=false
-#    username: root
-#    password: root
-#    type: com.alibaba.druid.pool.DruidDataSource
   web:
     resources:
       static-locations: /dist
