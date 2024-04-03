@@ -2,3 +2,6 @@
 /target/
 
 application-dev.yml
+/src/test/
+
+*.log
