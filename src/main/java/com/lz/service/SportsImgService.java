@@ -7,9 +7,8 @@ import java.util.List;
 /**
  * Created with IntelliJ IDEA.
  *
- * @Author: lz
- * @Date: 2023/11/14/11:29
- * @Description:
+ * @author lz
+ * @date 2024/04/03
  */
 public interface SportsImgService {
     /**
@@ -20,12 +19,14 @@ public interface SportsImgService {
      *
      * @return {@code String[]}
      */
-    public List<String> selectImgs(Long id, String type);
+    List<String> selectImgs(Long id, String type);
 
     /**
      * 添加 图片src
      *
      * @param sportsImg 体育IMG
+     *
+     * @throws Exception 例外
      */
     void addSrc(SportsImg sportsImg) throws Exception;
 

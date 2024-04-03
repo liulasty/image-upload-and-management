@@ -1,12 +1,6 @@
 package com.lz.controller;
 
-/**
- * Created with IntelliJ IDEA.
- *
- * @Author: lz
- * @Date: 2023/11/05/16:34
- * @Description:
- */
+
 
 import com.lz.pojo.entity.SportsImg;
 import com.lz.service.SportsImgService;
@@ -72,20 +66,20 @@ public class UserController {
      * @return {@code String}
      */
     public String validate(BindingResult result) {
+        // 异常防护：检查result是否为null
+        if (result == null) {
+            throw new IllegalArgumentException("BindingResult cannot be null");
+        }
+
         List<FieldError> fieldErrors = result.getFieldErrors();
 
-        // fieldErrors列表中的每个对象的默认消息提取出来，并以字符串列表的形式返回。
-        List<String> collect = fieldErrors.stream()
-
-                .map(o -> o.getDefaultMessage())
-
-                .collect(Collectors.toList());
-
+        // 添加分隔符：使用 Collectors.joining() 方法拼接错误消息，以换行符分隔
+        String errorMessages = fieldErrors.stream()
+                .map(FieldError::getDefaultMessage)
+                .collect(Collectors.joining("\n"));
 
         if (!fieldErrors.isEmpty()) {
-
-            return collect.toString();
-
+            return errorMessages;
         }
         return null;
     }
@@ -105,45 +99,55 @@ public class UserController {
             return Result.error(validate(result));
         }
 
-        User user = null;
-        UserLoginVO userLoginVO = null;
-        String avatarImg = null;
+
+
+        
         try {
-            user = userService.login(userLoginDTO);
-            avatarImg = sportsImgService.selectImg(user.getUserId(),
-                                                   "avatar");
-            avatarImg ="https://"+ appConfig.getBucketName() + "."
-                    + appConfig.getEndpoint() + "/" + avatarImg;
+            User user = userService.login(userLoginDTO);
+            
+            // 检查用户状态
             if (!"已激活".equals(user.getStatus())) {
                 String activeUrl =
                         "http://localhost:80/sports/user/active/" + user.getUserId();
-                MailUtils.sendMail(user.getEmail(),
-                                   "你好，这是一封激活邮件，无需回复，点击此链接激活" + activeUrl,
-                                   "激活邮件");
+                sendActivationEmail(user.getEmail(), activeUrl);
                 return Result.error("请激活你的账户");
             }
+            // 登录成功
+            String avatarImg  = sportsImgService.selectImg(user.getUserId(),
+                                                   "avatar");
+            avatarImg ="https://"+ appConfig.getBucketName() + "."
+                    + appConfig.getEndpoint() + "/" + avatarImg;
             BaseContext.setCurrentId(user.getUserId());
             HashMap<String, Object> claims = new HashMap<>();
             claims.put("id", user.getUserId());
             claims.put("username", user.getUserName());
             String token = JwtUtil.genToken(claims, appConfig.getJwtKey());
             log.info("token: {}", token);
-            userLoginVO = UserLoginVO.builder()
+
+            UserLoginVO userLoginVO = UserLoginVO.builder()
                     .id(user.getUserId())
                     .userName(user.getUserName())
                     .type(user.getUserType())
                     .token(token)
                     .avatarSrc(avatarImg)
                     .build();
-
+            String ipAddress = request.getRemoteAddr();
+            log.info("客户端IP地址：{}", ipAddress);
+            return Result.success(userLoginVO);
         } catch (Exception e) {
-            e.printStackTrace();
+            // 统一异常处理（在实际项目中，此处应改为调用全局异常处理器）
+            log.error("登录过程中发生异常", e);
+            return Result.error("登录失败，请稍后重试");
         }
 
 
-        String ipAddress = request.getRemoteAddr();
-        System.out.println("客户端IP地址：" + ipAddress);
-        return Result.success(userLoginVO);
+        
+    }
+
+    private void sendActivationEmail(String email, String activationUrl) {
+        String subject = "账户激活邮件";
+        String content = "你好，这是一封激活邮件，无需回复，点击此链接激活：" + activationUrl;
+        MailUtils.sendMail(email, subject, content);
     }
 
     /**
@@ -179,11 +183,11 @@ public class UserController {
         if (validate(result) != null) {
             return Result.error(validate(result));
         }
-        User user = new User();
+        
         try {
             QueryWrapper<User> queryWrapper = new QueryWrapper<>();
             queryWrapper.eq("Username", userRegisterDTO.getUsername());
-            user = userDao.selectOne(queryWrapper);
+            User user = userDao.selectOne(queryWrapper);
             if (user == null) {
                 user = new User();
                 user.setUserName(userRegisterDTO.getUsername());
@@ -220,11 +224,11 @@ public class UserController {
      */
     @GetMapping("/active/{userId}")
     public Result<Object> activeUser(@PathVariable Long userId) {
-        User user = null;
+        
         try {
             QueryWrapper<User> queryWrapper = new QueryWrapper<>();
             queryWrapper.eq("UserID", userId);
-            user = userDao.selectOne(queryWrapper);
+            User user = userDao.selectOne(queryWrapper);
 
             if (user == null) {
                 throw new Exception();

@@ -1,17 +1,14 @@
 package com.lz.pojo.entity;
 
-/**
- * Created with IntelliJ IDEA.
- *
- * @Author: lz
- * @Date: 2023/11/05/16:36
- * @Description:
- */
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
+import com.sun.tracing.dtrace.ArgsAttributes;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.Date;
 
@@ -19,6 +16,9 @@ import java.util.Date;
  * @author lz
  */
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class User {
     @TableId(value = "UserID",type = IdType.AUTO)
     private Long userId;

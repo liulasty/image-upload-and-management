@@ -1,6 +1,6 @@
 package com.lz.utils;
 
-/**
+/*
  * Created with IntelliJ IDEA.
  *
  * @Author: lz
@@ -8,8 +8,10 @@ package com.lz.utils;
  * @Description:
  */
 
+
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
 /**
@@ -19,39 +21,31 @@ import java.util.Date;
  * @date 2023/11/14
  */
 public class DataUtil {
+
     /**
-     * 字符串到数据
-     *
-     * @param s s
-     *
-     * @return {@code Date}
+    由于DateTimeFormatter是线程安全的，我们可以定义为静态常量
      */
-    public static Date StringToData(String s){
+    private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'").withZone(java.time.ZoneId.of("UTC"));
 
-        String pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'";
-
-        SimpleDateFormat formatter = new SimpleDateFormat(pattern);
-        Date date = null;
-        try {
-            date = formatter.parse(s);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-
-        return date;
+    /**
+     * 字符串转日期
+     *
+     * @param s 待转换的字符串
+     * @return 转换后的Date对象，若转换失败则返回null
+     */
+    public static Date stringToDate(String s) {
+        LocalDateTime dateTime = LocalDateTime.parse(s, FORMATTER);
+        return Date.from(dateTime.atZone(java.time.ZoneId.systemDefault()).toInstant());
     }
 
     /**
-     * 日期到字符串
+     * 日期转字符串
      *
-     * @param date 日期
-     *
-     * @return {@code String}
+     * @param date 待转换的日期
+     * @return 转换后的字符串
      */
-    public static String dateToString(Date date){
-
-        String pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'";
-        SimpleDateFormat formatter = new SimpleDateFormat(pattern);
-        return formatter.format(date);
+    public static String dateToString(Date date) {
+        LocalDateTime dateTime = LocalDateTime.ofInstant(date.toInstant(), java.time.ZoneId.systemDefault());
+        return FORMATTER.format(dateTime);
     }
 }

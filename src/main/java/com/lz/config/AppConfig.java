@@ -1,12 +1,5 @@
 package com.lz.config;
 
-/**
- * Created with IntelliJ IDEA.
- *
- * @Author: lz
- * @Date: 2023/11/08/10:43
- * @Description:
- */
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -50,7 +43,7 @@ public class AppConfig {
 
     @Bean
     public String getJwtKey() {
-        System.out.println("this.KEY:" + this.jwtKey);
+        
         return jwtKey;
     }
 }
