@@ -47,7 +47,7 @@ public enum Weekday {
     /**
      * 中文名
      */
-    private String chineseName;
+    private final String chineseName;
 
     Weekday(String chineseName) {
         this.chineseName = chineseName;

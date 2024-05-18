@@ -9,8 +9,8 @@ spring:
 # 开启日志
 mybatis-plus:
   configuration:
-    # log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
-    log-impl: org.apache.ibatis.logging.nologging.NoLoggingImpl
+     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+#    log-impl: org.apache.ibatis.logging.nologging.NoLoggingImpl
   #  启动Banner是在应用程序启动时打印的MyBatis-Plus的Logo和版本信息，默认情况下是启用的。
   global-config:
     banner: true

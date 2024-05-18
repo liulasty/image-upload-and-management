@@ -19,6 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -100,5 +101,11 @@ public class SportsImgServiceImpl implements SportsImgService {
                                        "-wallhaven-3zvypv.jpg");
         }
         return sportsImg.getImgSrc();
+    }
+
+    @Override
+    public List<SportsImg> selectByMap(HashMap<String, Object> map) {
+        List<SportsImg> sportsImgs = sportsImgDao.selectByMap(map);
+        return sportsImgs;
     }
 }

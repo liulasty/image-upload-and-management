@@ -2,6 +2,7 @@ package com.lz.service;
 
 import com.lz.pojo.entity.SportsImg;
 
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -39,4 +40,6 @@ public interface SportsImgService {
      * @return {@code SportsImg}
      */
     String selectImg(Long userId, String avatar);
+
+    List<SportsImg> selectByMap(HashMap<String, Object> map);
 }

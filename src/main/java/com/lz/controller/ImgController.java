@@ -70,7 +70,7 @@ public class ImgController {
         try {
             String folderName = "photos/";
             // 生成唯一的文件名
-            String fileName = folderName + UUID.randomUUID().toString() + "-" + file.getOriginalFilename();
+            String fileName = folderName + UUID.randomUUID() + ".png";
 
             // 创建OSSClient实例
             OSS ossClient = new OSSClientBuilder().build(endpoint, accessKeyId, accessKeySecret);
@@ -171,7 +171,7 @@ public class ImgController {
         map.put("ImgType", "活动");
         map.put("typeId", eventId);
         try {
-            List<SportsImg> sportsImgs = sportsImgDao.selectByMap(map);
+            List<SportsImg> sportsImgs = sportsImgService.selectByMap(map);
 
             return Result.success(sportsImgs, "获取成功");
         } catch (Exception e) {
